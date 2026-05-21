@@ -1,4 +1,5 @@
 require('dotenv').config()
+const connectDatabase = require("./config/db")
 const express = require("express")
 const app = express()
 const handlebars = require("express-handlebars")
@@ -39,6 +40,8 @@ const PORT = process.env.PORT || 1476
 //Static Files
     app.use(express.static(path.join(__dirname, "public")))
 
+//Conexão com o banco
+    connectDatabase()
 
 //Rotas
     app.use("/", indexRoutes)
