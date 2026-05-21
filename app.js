@@ -7,6 +7,9 @@ const session = require("express-session")
 
 const PORT = process.env.PORT || 1476
 
+//Routes Connection
+    const indexRoutes = require("./routes/indexRoutes")
+
 //Middlewares
     const flashMessages = require("./middlewares/flash")
 
@@ -37,7 +40,8 @@ const PORT = process.env.PORT || 1476
     app.use(express.static(path.join(__dirname, "public")))
 
 
-
+//Rotas
+    app.use("/", indexRoutes)
 
 
 
