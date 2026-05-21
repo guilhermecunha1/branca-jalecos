@@ -17,9 +17,9 @@ const PORT = process.env.PORT || 1476
 // Sessions
     app.use(
         session({
-            secret: process.env.SESSION_SECRET,
-            resave: true,
-            saveUninitialized: true
+            secret: process.env.SESSION_SECRET || 'secret', //TEMPORARIO
+            resave: false,
+            saveUninitialized: false
         })
     )
 
