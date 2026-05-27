@@ -1,0 +1,129 @@
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #faf8f5;
+  color: #2c2c2c;
+  overflow-x: hidden;
+}
+
+/* Customização da Tipografia da Marca */
+.brand-branca {
+  font-weight: 700;
+  color: #f18e3f;
+  letter-spacing: 1.5px;
+}
+.brand-jalecos {
+  font-weight: 300;
+  color: #4a4a4a;
+  letter-spacing: 1.5px;
+}
+
+/* Efeito de Link Minimalista */
+.nav-link-custom {
+  color: #5a5a5a;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+.nav-link-custom:hover {
+  color: #f18e3f;
+}
+.nav-link-custom::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: 0;
+  left: 16px;
+  background-color: #f18e3f;
+  transition: width 0.3s ease;
+}
+.nav-link-custom:hover::after {
+  width: calc(100% - 32px);
+}
+
+/* Efeito de Elevação nos Cards */
+.img-editorial-wrapper {
+  overflow: hidden;
+  border: 1px solid #eadecc;
+  background-color: #ffffff;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.img-editorial-wrapper:hover {
+  transform: translateY(-5px);
+  border-color: #f18e3f;
+  box-shadow: 0 20px 40px rgba(241, 142, 63, 0.05);
+}
+
+/* public/css/style.css */
+
+/* public/css/style.css */
+
+/* --- BOTÕES PREMIUM (ESTILO GERAL) --- */
+.btn-premium, .btn-premium-outline {
+  font-weight: 600; /* Texto um pouco mais firme */
+  letter-spacing: 1.5px; /* Espaçamento de grife */
+  border-radius: 0px; /* Pontas retas estilo Sen-Knife */
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Transição suave */
+  text-transform: uppercase; /* Força maiúsculas */
+  font-size: 0.85rem; /* Tamanho elegante */
+  box-shadow: 0 0 0 rgba(0,0,0,0); /* Começa sem sombra */
+}
+
+/* 1. Botão Sólido (CRIAR CONTA / VER COLEÇÕES) */
+.btn-premium {
+  background-color: #f18e3f;
+  color: #ffffff !important;
+  border: 1px solid #f18e3f;
+  transition: 0.4s;
+}
+
+/* Hover de Destaque Sólido (Inversão e Glow) */
+.btn-premium:hover {
+  background-color: #ffffff;
+  color: #f18e3f !important;
+  border-color: #f18e3f;
+  box-shadow: 0 8px 25px rgba(241, 142, 63, 0.25); /* Glow Laranja Sofisticado */
+  transform: translateY(-2px); /* Elevação física */
+}
+
+/* 2. Botão Contornado (CONHEÇA A MARCA) */
+.btn-premium-outline {
+  background-color: transparent;
+  color: #4a4a4a; /* Grafite sofisticado do logo */
+  border: 1px solid #d1d1d1; /* Borda cinza clara neutra */
+  transition: 0.4s;
+}
+
+/* NOVO Hover Sofisticado para o Contornado */
+.btn-premium-outline:hover {
+  background-color: #ffffff; /* Fundo branco puro */
+  color: #f18e3f !important; /* Texto assume a cor da marca */
+  border-color: #f18e3f; /* Borda assume a cor da marca */
+  /* Sombra sutil e difusa para destacar o botão sobre o fundo off-white */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); 
+  transform: translateY(-2px);
+}
+
+/* public/css/style.css */
+
+/* --- ANIMAÇÃO DE SCROLL (REVEAL) --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px); /* Começa um pouco mais baixo */
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: transform, opacity; /* Otimização */
+}
+
+/* Estado Ativo (Entrada) */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Estado de Saída (Quando o elemento some) */
+.reveal:not(.active) {
+  /* No design minimalista, quando sai, ele simplesmente some ou sobe levemente */
+  opacity: 0;
+  transform: translateY(-20px); /* Quando sobe, continua subindo sutilmente */
+  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
+}
