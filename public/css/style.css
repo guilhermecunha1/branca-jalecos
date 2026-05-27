@@ -127,3 +127,41 @@ body {
   transform: translateY(-20px); /* Quando sobe, continua subindo sutilmente */
   transition: opacity 0.6s ease-in, transform 0.6s ease-in;
 }
+
+/* public/css/style.css */
+
+/* --- ANIMAÇÕES DE ENTRADA (INITIAL LOAD) --- */
+
+/* 1. Animação para os Textos e Botões */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  opacity: 0; /* Começa invisível enquanto o delay conta */
+  animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 2. Animação Exclusiva para a Imagem do Jaleco */
+@keyframes heroImageReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-hero-image {
+  opacity: 0;
+  animation: heroImageReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
