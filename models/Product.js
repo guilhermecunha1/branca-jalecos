@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const Product = new Schema({
-    nome:{
+    name:{
         type: String,
         required: true
     },
@@ -11,23 +11,23 @@ const Product = new Schema({
         required: true
     },
     
-    descricao: {
+    description: {
         type: String,
         required: true
     },
 
-    sexo: {
+    gender: {
         type: String,
         enum: ['masculino', 'feminino', 'unissex'],
         required: true
     },
 
-    precoBase: {
+    basePrice: {
         type: Number,
         required: true
     },
 
-     ativo: {
+     active: {
         type: Boolean,
         default: false,
     },

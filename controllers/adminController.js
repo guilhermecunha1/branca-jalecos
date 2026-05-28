@@ -5,20 +5,71 @@ const {ZodError} = require("zod")
     require("../models/Product")
     const Product = mongoose.model("products")
 
+//Schemas:
+    const {productSchema} = require("../validators/productSchema")
+
 
     //Controllers:
+
+async function addFlash(req, type, msg) {
+    req.session.flash = {type, msg}
+}
+
+function formatZodErrors(error) {
+  if (!(error instanceof ZodError)) {
+    return [];
+  }
+
+  return error.issues.map((issue) => ({ texto: issue.message }));
+}
+
+
 
 async function home(req, res) {
     res.render("admin/index")
 }
 
-//* Criar gerenciamento de produtos amanha:
-// Produto com nome e slug, onde o administrador podera criar produtos que vao ser
-// gerenciados no estoque, e la ira ter separações por tamanho, e também a quantidade
-// que tem, tudo isso sendo administrado pelo controlador do estoque*//
+async function loadProducts(req, res) {
+    return Product.find().lean().sort({createdAt: -1})
+}
 
-async function productsForm(req, res) {
-    res.render("admin/products/form")
+async function manageProducts(req, res) {
+    try{
+        const products = await loadProducts()
+        res.render("admin/products/manage", {products})
+    } catch (error){
+        addFlash(req, "alert-danger", "Erro ao listar produtos disponiveis!")
+        res.redirect("/admin")
+
+    }
+}
+
+async function showNewProductForm(req, res) {
+    res.render("admin/products/create")
+}
+
+async function createProduct(req, res) {
+    const {name, slug, basePrice, gender, description, active} = req.body
+
+    try{
+
+        //Validação
+        productSchema.parse({name, slug, basePrice, gender, description})
+        await Product.create({name, slug, basePrice, gender, description, active})
+
+        addFlash(req, "alert-success", "Produto Criado Com Sucesso")
+        res.redirect("/admin/products")
+
+    }catch(error){
+        if (error instanceof ZodError) {
+            const erros = formatZodErrors(error)
+            return res.render("admin/products/create", {erros})
+
+        }
+
+        addFlash(req, "alert-danger", "Erro ao salvar categoria")
+        res.redirect("/admin/products/create")
+    }
 }
 
 
@@ -29,5 +80,7 @@ async function productsForm(req, res) {
 
 module.exports = {
     home,
-    productsForm
+    manageProducts,
+    showNewProductForm,
+    createProduct
 }

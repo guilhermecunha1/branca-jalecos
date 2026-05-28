@@ -1,0 +1,69 @@
+<div class="container py-5">
+  
+  <div class="mb-5 animate-fade-in-up" style="animation-delay: 0.1s;">
+    <p class="text-uppercase small fw-semibold m-0" style="color: #f18e3f; letter-spacing: 2px;">Acesso Administrativo</p>
+    <h2 class="fw-light text-dark m-0" style="font-size: 2.2rem;">Cadastrar Novo Produto</h2>
+  </div>
+    {{> _errors}}
+  <div class="card border-0 shadow-sm animate-fade-in-up" style="animation-delay: 0.2s;">
+    <div class="card-body p-4 p-md-5">
+      
+      <form action="/admin/products/create" method="POST">
+        
+        <div class="row g-4">
+          
+          <div class="col-md-6">
+            <label for="nome" class="form-label fw-medium text-dark">Nome do Produto <span class="text-danger">*</span></label>
+            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" id="name" name="name" required placeholder="Ex: Jaleco Aspen">
+          </div>
+
+          <div class="col-md-6">
+            <label for="slug" class="form-label fw-medium text-dark">Slug (URL) <span class="text-danger">*</span></label>
+            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" id="slug" name="slug" required placeholder="Ex: jaleco-aspen">
+            <div class="form-text small">Identificador para o link da loja. Use apenas letras minúsculas e hífens.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="precoBase" class="form-label fw-medium text-dark">Preço Base <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-0 border-end-0 text-secondary">R$</span>
+              <input type="number" step="0.01" min="0" class="form-control bg-light border-0 border-start-0 py-2 shadow-none px-0" id="basePrice" name="basePrice" required placeholder="0.00">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="sexo" class="form-label fw-medium text-dark">Linha / Gênero <span class="text-danger">*</span></label>
+            <select class="form-select bg-light border-0 py-2 shadow-none" id="gender" name="gender" required>
+              <option value="" disabled selected>Selecione uma categoria...</option>
+              <option value="masculino">Masculino</option>
+              <option value="feminino">Feminino</option>
+              <option value="unissex">Unissex</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label for="descricao" class="form-label fw-medium text-dark">Descrição do Produto <span class="text-danger">*</span></label>
+            <textarea class="form-control bg-light border-0 py-2 shadow-none" id="description" name="description" rows="5" required placeholder="Descreva os detalhes de corte, tecido, tecnologia, etc..."></textarea>
+          </div>
+
+          <div class="col-12 mt-4">
+            <div class="form-check form-switch d-flex align-items-center gap-2">
+              <input class="form-check-input m-0 fs-4" type="checkbox" role="switch" id="active" name="active" value="true">
+              <label class="form-check-label fw-medium text-dark" style="cursor: pointer;" for="ativo">Produto Ativo (Visível no site imediatamente)</label>
+            </div>
+          </div>
+
+        </div>
+
+        <hr class="my-5" style="border-color: #eadecc;">
+
+        <div class="d-flex gap-3 justify-content-end">
+          <a href="/admin/products" class="btn btn-premium-outline px-4 py-2">CANCELAR</a>
+          <button type="submit" class="btn btn-premium px-5 py-2">SALVAR PRODUTO</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

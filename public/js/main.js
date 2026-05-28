@@ -31,3 +31,25 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Seleciona tanto a mensagem flash quanto o quadro de erros
+  const alertas = document.querySelectorAll('#flash-msg, .alert.alert-danger');
+  
+  if (alertas.length > 0) {
+    // Define o tempo que a mensagem ficará na tela (5000 = 5 segundos)
+    setTimeout(() => {
+      alertas.forEach(alerta => {
+        // Aplica a transição de saída via CSS inline
+        alerta.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        alerta.style.opacity = '0';
+        alerta.style.transform = 'translateY(-10px)'; // Sobe um pouquinho enquanto some
+        
+        // Remove o elemento do HTML após a animação de saída terminar (600ms)
+        setTimeout(() => {
+          alerta.remove();
+        }, 600);
+      });
+    }, 5000); 
+  }
+});

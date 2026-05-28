@@ -74,6 +74,7 @@ body {
   background-color: #f18e3f;
   color: #ffffff !important;
   border: 1px solid #f18e3f;
+  border-radius: 4px;
   transition: 0.4s;
 }
 
@@ -91,6 +92,7 @@ body {
   background-color: transparent;
   color: #4a4a4a; /* Grafite sofisticado do logo */
   border: 1px solid #d1d1d1; /* Borda cinza clara neutra */
+  border-radius: 4px;
   transition: 0.4s;
 }
 
@@ -164,4 +166,90 @@ body {
 .animate-hero-image {
   opacity: 0;
   animation: heroImageReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==========================================================================
+   ESTILIZAÇÃO DOS PARTIALS (FLASH MESSAGES E ERROS)
+   ========================================================================== */
+
+/* 1. Base dos Alertas e Animação de Entrada */
+#flash-msg, 
+.alert.alert-danger {
+  background-color: #ffffff;
+  border: none !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  padding: 16px 20px !important;
+  margin-bottom: 24px;
+  font-weight: 500;
+  position: relative;
+  
+  /* Reaproveita a animação fadeInUp que já criamos antes */
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 2. Cores das Bordas Laterais (Baseado na classe dinâmica) */
+
+/* Sucesso */
+#flash-msg[class*="success"] {
+  border-left: 4px solid #198754 !important;
+  color: #146c43;
+}
+
+/* Erro / Danger (Pega tanto o flash de erro quanto a lista de erros) */
+#flash-msg[class*="danger"],
+#flash-msg[class*="error"],
+.alert.alert-danger {
+  border-left: 4px solid #dc3545 !important;
+  color: #b02a37;
+  background-color: #fff5f5; /* Um fundo bem clarinho avermelhado */
+}
+
+/* Aviso / Warning */
+#flash-msg[class*="warning"] {
+  border-left: 4px solid #f18e3f !important; /* Usando o laranja da sua marca */
+  color: #997404;
+}
+
+
+/* 3. Limpeza da Lista de Erros (<ul>) sem mexer no HTML */
+.alert.alert-danger ul {
+  list-style-type: none; /* Remove as bolinhas pretas padrão */
+  padding-left: 0;
+  margin-top: 12px;
+}
+
+.alert.alert-danger ul li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 6px;
+  font-weight: 400;
+  color: #dc3545;
+}
+
+/* Adiciona uma setinha bonita antes de cada erro usando CSS puro */
+.alert.alert-danger ul li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Animação para Desaparecer Subindo Suavemente */
+@keyframes fadeOutUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px); /* Desliza para cima enquanto some */
+  }
+}
+
+/* Classe que ativa a animação de saída */
+.animate-fade-out-up {
+  animation: fadeOutUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
