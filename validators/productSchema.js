@@ -13,8 +13,13 @@ const productSchema = z.object({
         .string({
             required_error: "O slug é obrigatório"
         })
+        .toLowerCase()
         .min(3, "O slug precisa ter no mínimo 3 caracteres")
-        .max(50, "O slug pode ter no máximo 50 caracteres"),
+        .max(50, "O slug pode ter no máximo 50 caracteres")
+        .regex(
+        /^[a-z0-9-]+$/,
+        "O slug pode conter apenas letras minúsculas, números e hífen"
+        ),
 
     basePrice: z
         .coerce

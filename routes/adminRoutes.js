@@ -8,6 +8,7 @@ router.get('/', adminController.home)
 router.get("/products", adminController.manageProducts)
 router.get("/products/create", adminController.showNewProductForm)
 router.post("/products/create", adminController.createProduct)
+router.post("/products/delete/:id", adminController.deleteProduct)
 
 
 module.exports = router

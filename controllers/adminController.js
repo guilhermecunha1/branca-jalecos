@@ -72,6 +72,20 @@ async function createProduct(req, res) {
     }
 }
 
+async function deleteProduct(req, res) {
+
+    try{
+        await Product.findByIdAndDelete(req.params.id)
+        addFlash(req, "alert-success", "Produto excluido com sucesso!")
+        res.redirect("/admin/products")
+
+    }catch(error){
+        addFlash(req, "alert-danger", "Erro ao excluir produto, Tente novamente!")
+        res.redirect("/admin/products")
+    }
+    
+}
+
 
 
 
@@ -82,5 +96,6 @@ module.exports = {
     home,
     manageProducts,
     showNewProductForm,
-    createProduct
+    createProduct,
+    deleteProduct
 }

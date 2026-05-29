@@ -169,78 +169,163 @@ body {
 }
 
 /* ==========================================================================
-   DESIGN MINIMALISTA PARA NOTIFICAÇÕES (ALINHADO AO GRID)
+   DESIGN MINIMALISTA PARA NOTIFICAÇÕES (SUCESSO, ERRO E AVISO)
    ========================================================================== */
 
-/* Faz o alerta herdar o limite do container do Bootstrap, alinhando com o card */
+/* Container que alinha o alerta com o restante do conteúdo */
 .minimal-alert-container {
   width: 100%; 
   margin-top: 0.5rem;
-  margin-bottom: 1.5rem; /* Empurra o card para baixo com elegância */
+  margin-bottom: 1.5rem;
   display: block;
 }
 
-/* Base das caixas de alertas (Flash e Erros) */
+/* Base idêntica para todas as caixas de alertas */
 #flash-msg, 
-.alert.alert-danger {
+.alert {
   padding: 1.1rem 1.5rem !important;
-  border-radius: 0px !important; /* Cantos retos minimalistas (Identidade Branca) */
+  border-radius: 0px !important; /* Cantos retos alfaiataria */
   font-size: 0.9rem;
   font-weight: 400;
   letter-spacing: 0.5px;
   border: none !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06); /* Sombra suave de integração */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06); /* Sombra elegante */
   border-left: 4px solid transparent !important;
 }
 
-/* Cores dos Alertas com fundos levemente pigmentados */
-#flash-msg.alert-success {
+/* --- SUCESSO (O que tinha sumido! Verde sutil e sofisticado) --- */
+#flash-msg[class*="success"],
+.alert-success {
   background-color: #f1f9f4 !important;
   color: #11603a !important;
   border-left-color: #198754 !important;
 }
 
+/* --- ERRO / DANGER (Vermelho suave) --- */
 #flash-msg[class*="danger"],
 #flash-msg[class*="error"],
-.alert.alert-danger {
+.alert-danger {
   background-color: #fff3f3 !important;
   color: #a9212b !important;
   border-left-color: #dc3545 !important;
 }
 
-#flash-msg.alert-warning {
+/* --- AVISO / WARNING (Tom Areia/Laranja) --- */
+#flash-msg[class*="warning"],
+.alert-warning {
   background-color: #fff9f1 !important;
   color: #855d03 !important;
   border-left-color: #f18e3f !important;
 }
 
-/* --- ESTILIZAÇÃO INTERNA DA LISTA DE ERROS --- */
-.error-title {
-  display: block;
+
+/* ==========================================================================
+   TABELA ADMINISTRATIVA DE PRODUTOS - STYLE BRANCA
+   ========================================================================== */
+
+/* Estilo das colunas do Cabeçalho */
+/* Cabeçalho da Tabela - Corrigido para Alto Contraste */
+.table-header-premium {
+  letter-spacing: 1.5px;
   font-size: 0.8rem;
+  font-weight: 700; /* Texto mais negrito para destacar */
+  color: #1a1a1a !important; /* Preto suave para contraste total de leitura */
+  background-color: #f3efe9 !important; /* Um tom areia/off-white ligeiramente mais escuro que o fundo */
+  
+  /* Linha inferior estilizada com o Laranja da Marca para criar uma divisão perfeita */
+  border-bottom: 2px solid #f18e3f !important; 
+  padding-top: 14px !important;
+  padding-bottom: 14px !important;
+}
+
+/* Efeito hover suave nas linhas para dar sensação de dinamismo */
+.custom-admin-table tbody tr {
+  transition: background-color 0.25s ease;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.custom-admin-table tbody tr:hover {
+  background-color: #fdfcfb !important; /* Ilumina a linha suavemente ao passar o mouse */
+}
+
+/* Tipografias internas da tabela */
+.visual-product-name {
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+.table-product-slug {
+  font-size: 0.75rem;
+  font-family: monospace; /* Estilo técnico elegante para URLs */
+  color: #9b9b9b !important;
+}
+
+.table-text-premium {
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+}
+
+/* Badges de Status Retos e Minimalistas */
+.badge-status {
+  font-size: 0.7rem;
   text-transform: uppercase;
   font-weight: 600;
-  letter-spacing: 1px;
-  margin-bottom: 0.6rem;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  display: inline-block;
 }
 
-.error-list {
-  list-style: none !important;
-  padding-left: 0 !important;
-  margin-bottom: 0 !important;
+.status-active {
+  background-color: #e6f6ec;
+  color: #157347;
 }
 
-.error-list li {
-  font-size: 0.85rem;
-  font-weight: 400;
-  position: relative;
-  padding-left: 15px;
-  margin-bottom: 0.35rem;
+.status-inactive {
+  background-color: #fdf2f2;
+  color: #bb2d3b;
 }
 
-.error-list li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: currentColor;
+/* Links de Ações Rápidas (Efeito sublinhado clássico de e-commerce de luxo) */
+
+/* ==========================================================================
+   BOTÕES DE AÇÃO DA TABELA (CONSOLIDADO E LIMPO)
+   ========================================================================== */
+
+.btn-action-premium {
+  /* 1. O Reset Necessário: Remove a "cara de botão" do navegador */
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-family: inherit !important;
+  cursor: pointer;
+  
+  /* 2. Estilização Visual (Igual para Link e Botão) */
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1 !important; /* Trava a altura para não dar degrau */
+  color: #2b2b2b;
+  text-decoration: none;
+  display: inline-block;
+  
+  /* Linha inferior minimalista */
+  border-bottom: 1px solid transparent !important;
+  transition: all 0.2s ease;
+}
+
+/* Hover Geral (Editar) */
+.btn-action-premium:hover {
+  color: #f18e3f !important;
+  border-bottom-color: #f18e3f !important;
+}
+
+/* Customização do Excluir */
+.btn-action-premium.text-danger {
+  color: #dc3545 !important;
+}
+
+.btn-action-premium.text-danger:hover {
+  color: #bd2130 !important;
+  border-bottom-color: #bd2130 !important;
 }

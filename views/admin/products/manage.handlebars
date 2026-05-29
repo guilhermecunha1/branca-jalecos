@@ -1,4 +1,5 @@
 <div class="container py-5">
+    {{> _flashMsg}}
     <div class="d-flex justify-content-between align-items-end mb-5 mb-5 animate-fade-in-up" style="animation-delay: 0.1s;">
 
         <div>
@@ -16,16 +17,67 @@
 
     {{!Produtos}}
     <div class="animate-fade-in-up" style="animation-delay: 0.2s;">
-        {{#if products}}
+  {{#if products}}
+    <div class="card border-0 shadow-sm" style="border-radius: 0px !important; background-color: #ffffff;">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0 custom-admin-table">
+          <thead>
+            <tr>
+              <th scope="col" class="text-uppercase py-3 ps-4 table-header-premium">Produto</th>
+              <th scope="col" class="text-uppercase py-3 table-header-premium">Linha / Gênero</th>
+              <th scope="col" class="text-uppercase py-3 table-header-premium">Preço Base</th>
+              <th scope="col" class="text-uppercase py-3 table-header-premium">Status</th>
+              <th scope="col" class="text-uppercase py-3 text-end pe-4 table-header-premium">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
             {{#each products}}
-                <p>{{name}}</p>     {{!Melhorar}}
+              <tr>
+                <td class="py-3 ps-4">
+                  <div class="fw-medium text-dark visual-product-name">{{name}}</div>
+                  <div class="text-muted small table-product-slug">/{{slug}}</div>
+                </td>
+                
+                <td class="py-3 text-secondary text-capitalize table-text-premium">
+                  {{gender}}
+                </td>
+                
+                <td class="py-3 fw-light text-dark table-text-premium">
+                  R$ {{basePrice}}
+                </td>
+                
+                <td class="py-3">
+                  {{#if active}}
+                    <span class="badge-status status-active">Ativo</span>
+                  {{else}}
+                    <span class="badge-status status-inactive">Inativo</span>
+                  {{/if}}
+                </td>
+                
+                <td class="py-3 text-end pe-4">
+                    <div class="d-flex justify-content-end align-items-center gap-3">
+    
+                        <a href="/admin/products/edit/{{_id}}" class="btn-action-premium">EDITAR</a>
+    
+                        <form action="/admin/products/delete/{{_id}}" method="POST" class="m-0 d-inline-flex align-items-center" onsubmit="return confirm('Tem certeza que deseja excluir este produto?')">
+                        <button type="submit" class="btn-action-premium text-danger">EXCLUIR</button>
+                        </form>
+
+                    </div>
+                </td>
+              </tr>
             {{/each}}
-        {{else}}
-            <div class="text-center text-secondary py-5 bg-light rounded">
-                <i class="bi bi-box-seam fs-2 mb-3 d-block text-muted"></i>
-                <p class="mb-0">Nenhum Produto encontrado</p>
-            </div>
-        {{/if}}
+          </tbody>
+        </table>
+      </div>
     </div>
+  {{else}}
+    <div class="text-center text-secondary py-5 bg-white border shadow-sm animate-fade-in-up" style="border-radius: 0px !important; border-color: #f8f9fa !important;">
+      <i class="bi bi-box-seam fs-2 mb-3 d-block" style="color: #eadecc;"></i>
+      <p class="mb-0 fw-light text-dark" style="letter-spacing: 0.5px; font-size: 0.95rem;">Nenhum produto cadastrado até o momento.</p>
+      <a href="/admin/products/create" class="btn btn-premium btn-sm mt-3 px-4">CADASTRAR PRIMEIRO</a>
+    </div>
+  {{/if}}
+</div>
     
 </div>
