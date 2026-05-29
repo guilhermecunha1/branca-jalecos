@@ -169,87 +169,78 @@ body {
 }
 
 /* ==========================================================================
-   ESTILIZAÇÃO DOS PARTIALS (FLASH MESSAGES E ERROS)
+   DESIGN MINIMALISTA PARA NOTIFICAÇÕES (ALINHADO AO GRID)
    ========================================================================== */
 
-/* 1. Base dos Alertas e Animação de Entrada */
+/* Faz o alerta herdar o limite do container do Bootstrap, alinhando com o card */
+.minimal-alert-container {
+  width: 100%; 
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem; /* Empurra o card para baixo com elegância */
+  display: block;
+}
+
+/* Base das caixas de alertas (Flash e Erros) */
 #flash-msg, 
 .alert.alert-danger {
-  background-color: #ffffff;
+  padding: 1.1rem 1.5rem !important;
+  border-radius: 0px !important; /* Cantos retos minimalistas (Identidade Branca) */
+  font-size: 0.9rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
   border: none !important;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  padding: 16px 20px !important;
-  margin-bottom: 24px;
-  font-weight: 500;
-  position: relative;
-  
-  /* Reaproveita a animação fadeInUp que já criamos antes */
-  opacity: 0;
-  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06); /* Sombra suave de integração */
+  border-left: 4px solid transparent !important;
 }
 
-/* 2. Cores das Bordas Laterais (Baseado na classe dinâmica) */
-
-/* Sucesso */
-#flash-msg[class*="success"] {
-  border-left: 4px solid #198754 !important;
-  color: #146c43;
+/* Cores dos Alertas com fundos levemente pigmentados */
+#flash-msg.alert-success {
+  background-color: #f1f9f4 !important;
+  color: #11603a !important;
+  border-left-color: #198754 !important;
 }
 
-/* Erro / Danger (Pega tanto o flash de erro quanto a lista de erros) */
 #flash-msg[class*="danger"],
 #flash-msg[class*="error"],
 .alert.alert-danger {
-  border-left: 4px solid #dc3545 !important;
-  color: #b02a37;
-  background-color: #fff5f5; /* Um fundo bem clarinho avermelhado */
+  background-color: #fff3f3 !important;
+  color: #a9212b !important;
+  border-left-color: #dc3545 !important;
 }
 
-/* Aviso / Warning */
-#flash-msg[class*="warning"] {
-  border-left: 4px solid #f18e3f !important; /* Usando o laranja da sua marca */
-  color: #997404;
+#flash-msg.alert-warning {
+  background-color: #fff9f1 !important;
+  color: #855d03 !important;
+  border-left-color: #f18e3f !important;
 }
 
-
-/* 3. Limpeza da Lista de Erros (<ul>) sem mexer no HTML */
-.alert.alert-danger ul {
-  list-style-type: none; /* Remove as bolinhas pretas padrão */
-  padding-left: 0;
-  margin-top: 12px;
+/* --- ESTILIZAÇÃO INTERNA DA LISTA DE ERROS --- */
+.error-title {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 0.6rem;
 }
 
-.alert.alert-danger ul li {
-  position: relative;
-  padding-left: 20px;
-  margin-bottom: 6px;
+.error-list {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.error-list li {
+  font-size: 0.85rem;
   font-weight: 400;
-  color: #dc3545;
+  position: relative;
+  padding-left: 15px;
+  margin-bottom: 0.35rem;
 }
 
-/* Adiciona uma setinha bonita antes de cada erro usando CSS puro */
-.alert.alert-danger ul li::before {
-  content: "→";
+.error-list li::before {
+  content: "•";
   position: absolute;
   left: 0;
-  color: #dc3545;
-  font-weight: bold;
-}
-
-/* Animação para Desaparecer Subindo Suavemente */
-@keyframes fadeOutUp {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-30px); /* Desliza para cima enquanto some */
-  }
-}
-
-/* Classe que ativa a animação de saída */
-.animate-fade-out-up {
-  animation: fadeOutUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  color: currentColor;
 }

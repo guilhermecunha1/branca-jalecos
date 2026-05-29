@@ -5,7 +5,8 @@
     <h2 class="fw-light text-dark m-0" style="font-size: 2.2rem;">Cadastrar Novo Produto</h2>
   </div>
     {{> _errors}}
-  <div class="card border-0 shadow-sm animate-fade-in-up" style="animation-delay: 0.2s;">
+    {{> _flashMsg}}
+  <div class="card border-0 shadow-sm animate-fade-in-up mt-3" style="animation-delay: 0.2s;">
     <div class="card-body p-4 p-md-5">
       
       <form action="/admin/products/create" method="POST">
@@ -49,7 +50,7 @@
           <div class="col-12 mt-4">
             <div class="form-check form-switch d-flex align-items-center gap-2">
               <input class="form-check-input m-0 fs-4" type="checkbox" role="switch" id="active" name="active" value="true">
-              <label class="form-check-label fw-medium text-dark" style="cursor: pointer;" for="ativo">Produto Ativo (Visível no site imediatamente)</label>
+              <label class="form-check-label fw-medium text-dark" style="cursor: pointer;" for="active">Produto Ativo (Visível no site imediatamente)</label>
             </div>
           </div>
 
