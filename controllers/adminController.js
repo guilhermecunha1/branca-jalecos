@@ -7,6 +7,7 @@ const {ZodError} = require("zod")
 
 //Schemas:
     const {productSchema} = require("../validators/productSchema")
+    const {editProductSchema} = require("../validators/editProductSchema")
 
 
     //Controllers:
@@ -86,6 +87,45 @@ async function deleteProduct(req, res) {
     
 }
 
+async function showEditProductForm(req, res) {
+    try{
+        const product = await Product.findById(req.params.id).lean()
+        res.render("admin/products/edit", {product})
+
+    }catch(error){
+        addFlash(req, "alert-danger", "Erro ao encontrar produto, Tente novamente!")
+    }
+}
+
+
+async function editProduct(req, res) {
+
+    const {id, ...productData} = req.body
+    productData.active = req.body.active === "true"
+
+    try{
+
+        editProductSchema.parse(productData)
+        
+        await Product.findByIdAndUpdate(id, productData)
+
+        addFlash(req, "alert-success", "Produto Modificado com Sucesso!")
+        res.redirect("/admin/products")
+
+    }catch(error){
+        if (error instanceof ZodError){
+            const erros = formatZodErrors(error)
+            return res.render("admin/products/edit",{
+                erros,
+                product: { _id: id, ...productData}
+            } )
+        }
+        addFlash(req, "alert-danger", "Erro ao moodificar produto.")
+        res.redirect("/admin/products")
+
+    }
+}
+
 
 
 
@@ -97,5 +137,7 @@ module.exports = {
     manageProducts,
     showNewProductForm,
     createProduct,
-    deleteProduct
+    deleteProduct,
+    showEditProductForm,
+    editProduct,
 }

@@ -1,0 +1,71 @@
+<div class="container py-5">
+  
+  <div class="mb-5 animate-fade-in-up" style="animation-delay: 0.1s;">
+    <p class="text-uppercase small fw-semibold m-0" style="color: #c45911; letter-spacing: 2px;">Acesso Administrativo</p>
+    <h2 class="fw-light text-dark m-0" style="font-size: 2.2rem;">Editar - {{product.name}}</h2>
+  </div>
+
+  {{> _errors}}
+  {{> _flashMsg}}
+
+  <div class="card border-0 shadow-sm animate-fade-in-up mt-3" style="animation-delay: 0.2s;">
+    <div class="card-body p-4 p-md-5">
+      
+      <form action="/admin/products/edit" method="POST">
+        
+        <div class="row g-4">
+            <input type="hidden" name="id" value="{{product._id}}">
+          <div class="col-md-6">
+            <label for="name" class="form-label">Nome do Produto <span class="text-danger">*</span></label>
+            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" id="name" name="name" required value="{{product.name}}">
+          </div>
+
+          <div class="col-md-6">
+            <label for="slug" class="form-label">Slug (URL)</label>
+            <input type="text" class="form-control bg-light border-0 py-2 shadow-none text-muted" id="slug" name="slug" readonly value="{{product.slug}}">
+            <div class="form-text small text-danger">O identificador da URL não pode ser alterado para não quebrar links existentes.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="basePrice" class="form-label">Preço Base <span class="text-danger">*</span></label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-0 border-end-0 text-secondary">R$</span>
+              <input type="number" step="0.01" min="0" class="form-control bg-light border-0 border-start-0 py-2 shadow-none px-0" id="basePrice" name="basePrice" required value="{{product.basePrice}}">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="gender" class="form-label">Linha / Gênero <span class="text-danger">*</span></label>
+            <select class="form-select bg-light border-0 py-2 shadow-none" id="gender" name="gender" required>
+              <option value="masculino" {{#if itemMasculino}}selected{{/if}}>Masculino</option>
+              <option value="feminino" {{#if itemFeminino}}selected{{/if}}>Feminino</option>
+              <option value="unissex" {{#if itemUnissex}}selected{{/if}}>Unissex</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label for="description" class="form-label">Descrição do Produto <span class="text-danger">*</span></label>
+            <textarea class="form-control bg-light border-0 py-2 shadow-none" id="description" name="description" rows="5" required>{{product.description}}</textarea>
+          </div>
+
+          <div class="col-12 mt-4">
+            <div class="form-check form-switch d-flex align-items-center gap-2">
+              <input class="form-check-input m-0 fs-4" type="checkbox" role="switch" id="active" name="active" value="true" {{#if product.active}}checked{{/if}}>
+              <label class="form-check-label fw-medium text-dark" style="cursor: pointer;" for="active">Produto Ativo (Visível no site imediatamente)</label>
+            </div>
+          </div>
+
+        </div>
+
+        <hr class="my-5" style="border-color: #eadecc;">
+
+        <div class="d-flex gap-3 justify-content-end">
+          <a href="/admin/products" class="btn btn-premium-outline px-4 py-2">VOLTAR</a>
+          <button type="submit" class="btn btn-premium px-5 py-2">ATUALIZAR PRODUTO</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
