@@ -31,7 +31,7 @@ async function home(req, res) {
 }
 
 async function loadProducts(req, res) {
-    return Product.find().lean().sort({createdAt: -1})
+    return Product.find().lean().sort({active: -1, createdAt: -1})
 }
 
 async function manageProducts(req, res) {
