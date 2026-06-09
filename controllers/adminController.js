@@ -9,10 +9,14 @@ const {ZodError} = require("zod")
     const {productSchema} = require("../validators/productSchema")
     const {editProductSchema} = require("../validators/editProductSchema")
 
+//Utils:
+    const addFlash = require("../utils/addFlash")
+    const formatZodErrors = require("../utils/formatZodErrors")
+
 
     //Controllers:
 
-async function addFlash(req, type, msg) {
+ /*function addFlash(req, type, msg) {
     req.session.flash = {type, msg}
 }
 
@@ -22,7 +26,7 @@ function formatZodErrors(error) {
   }
 
   return error.issues.map((issue) => ({ texto: issue.message }));
-}
+}*/
 
 
 
