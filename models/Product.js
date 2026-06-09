@@ -1,6 +1,32 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
+// Tamanhos e Cores:
+
+const COLORS = [
+    "Branco",
+    "Preto",
+    "Marrom",
+    "Bege",
+    "Azul",
+    "Azul Marinho",
+    "Ciano",
+    "Bordo",
+    "Magenta",
+    "Lilás"
+]
+
+const SIZES = [
+    "PP",
+    "P",
+    "M",
+    "G",
+    "XG",
+    "XXG",
+    "XXXG"
+
+]
+
 const Product = new Schema({
     name:{
         type: String,
@@ -31,6 +57,16 @@ const Product = new Schema({
         type: Boolean,
         default: false,
     },
+
+    colors: [{
+        type: "String",
+        enum: COLORS
+    }],
+
+    sizes: [{
+        type: "String",
+        enum: SIZES
+    }]
     
 
 }, { timestamps: true })

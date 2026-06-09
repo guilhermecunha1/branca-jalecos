@@ -46,7 +46,15 @@ const productSchema = z.object({
         .string({
             required_error: "A descrição é obrigatória"
         })
-        .min(8, "A descrição precisa ter no mínimo 8 caracteres")
+        .min(8, "A descrição precisa ter no mínimo 8 caracteres"),
+
+    colors: z
+    .array(z.string())
+    .min(1, "Selecione ao menos uma cor"),
+
+    sizes: z
+    .array(z.string())
+    .min(1, "Selecione ao menos um tamanho"),
 
 })
 

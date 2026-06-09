@@ -1,4 +1,4 @@
-async function addFlash(req, res, msg) {
+async function addFlash(req, res, type, msg) {
     req.session.flash = {type, msg}
 }
 

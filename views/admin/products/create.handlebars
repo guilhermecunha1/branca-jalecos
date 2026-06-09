@@ -1,12 +1,14 @@
 <div class="container py-5">
   
   <div class="mb-5 animate-fade-in-up" style="animation-delay: 0.1s;">
-    <p class="text-uppercase small fw-semibold m-0" style="color: #f18e3f; letter-spacing: 2px;">Acesso Administrativo</p>
+    <p class="text-uppercase small fw-semibold m-0" style="color: #c45911; letter-spacing: 2px;">Acesso Administrativo</p>
     <h2 class="fw-light text-dark m-0" style="font-size: 2.2rem;">Cadastrar Novo Produto</h2>
   </div>
-    {{> _errors}}
-    {{> _flashMsg}}
-  <div class="card border-0 shadow-sm animate-fade-in-up mt-3" style="animation-delay: 0.2s;">
+
+  {{> _errors}}
+  {{> _flashMsg}}
+
+  <div class="card border-0 shadow-sm animate-fade-in-up mt-3" style="animation-delay: 0.2s; border-radius: 0px !important;">
     <div class="card-body p-4 p-md-5">
       
       <form action="/admin/products/create" method="POST">
@@ -14,27 +16,27 @@
         <div class="row g-4">
           
           <div class="col-md-6">
-            <label for="nome" class="form-label fw-medium text-dark">Nome do Produto <span class="text-danger">*</span></label>
-            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" id="name" name="name" required placeholder="Ex: Jaleco X">
+            <label for="name" class="form-label fw-medium text-dark">Nome do Produto <span class="text-danger">*</span></label>
+            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" style="border-radius: 0px;" id="name" name="name" required placeholder="Ex: Jaleco Aspen">
           </div>
 
           <div class="col-md-6">
             <label for="slug" class="form-label fw-medium text-dark">Slug (URL) <span class="text-danger">*</span></label>
-            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" id="slug" name="slug" required placeholder="Ex: jaleco-aspen">
-            <div class="form-text small">Identificador para o link da loja. Use apenas letras minúsculas e hífens.</div>
+            <input type="text" class="form-control bg-light border-0 py-2 shadow-none" style="border-radius: 0px;" id="slug" name="slug" required placeholder="Ex: jaleco-aspen">
+            <div class="form-text small text-muted">Apenas letras minúsculas e hífens.</div>
           </div>
 
           <div class="col-md-6">
-            <label for="precoBase" class="form-label fw-medium text-dark">Preço Base <span class="text-danger">*</span></label>
+            <label for="basePrice" class="form-label fw-medium text-dark">Preço Base <span class="text-danger">*</span></label>
             <div class="input-group">
-              <span class="input-group-text bg-light border-0 border-end-0 text-secondary">R$</span>
-              <input type="number" step="0.01" min="0" class="form-control bg-light border-0 border-start-0 py-2 shadow-none px-0" id="basePrice" name="basePrice" required placeholder="0.00">
+              <span class="input-group-text bg-light border-0 border-end-0 text-secondary" style="border-radius: 0px;">R$</span>
+              <input type="number" step="0.01" min="0" class="form-control bg-light border-0 border-start-0 py-2 shadow-none px-0" style="border-radius: 0px;" id="basePrice" name="basePrice" required placeholder="0.00">
             </div>
           </div>
 
           <div class="col-md-6">
-            <label for="sexo" class="form-label fw-medium text-dark">Linha / Gênero <span class="text-danger">*</span></label>
-            <select class="form-select bg-light border-0 py-2 shadow-none" id="gender" name="gender" required>
+            <label for="gender" class="form-label fw-medium text-dark">Linha / Gênero <span class="text-danger">*</span></label>
+            <select class="form-select bg-light border-0 py-2 shadow-none" style="border-radius: 0px;" id="gender" name="gender" required>
               <option value="" disabled selected>Selecione uma categoria...</option>
               <option value="masculino">Masculino</option>
               <option value="feminino">Feminino</option>
@@ -43,13 +45,46 @@
           </div>
 
           <div class="col-12">
-            <label for="descricao" class="form-label fw-medium text-dark">Descrição do Produto <span class="text-danger">*</span></label>
-            <textarea class="form-control bg-light border-0 py-2 shadow-none" id="description" name="description" rows="5" required placeholder="Descreva os detalhes de corte, tecido, tecnologia, etc..."></textarea>
+            <label for="description" class="form-label fw-medium text-dark">Descrição do Produto <span class="text-danger">*</span></label>
+            <textarea class="form-control bg-light border-0 py-2 shadow-none" style="border-radius: 0px;" id="description" name="description" rows="4" required placeholder="Descreva os detalhes de corte, tecido, tecnologia..."></textarea>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-medium text-dark mb-2">Cores Disponíveis</label>
+            <div class="p-3 border bg-white" style="border-radius: 0px; border-color: #eadecc !important; max-height: 220px; overflow-y: auto;">
+              <div class="row g-2">
+                <div class="col-6"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="colors" value="Branco" id="color_branco"><label class="form-check-label text-secondary small" for="color_branco">Branco</label></div></div>
+                <div class="col-6"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="colors" value="Preto" id="color_preto"><label class="form-check-label text-secondary small" for="color_preto">Preto</label></div></div>
+                <div class="col-6"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="colors" value="Marrom" id="color_marrom"><label class="form-check-label text-secondary small" for="color_marrom">Marrom</label></div></div>
+                <div class="col-6"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="colors" value="Bege" id="color_bege"><label class="form-check-label text-secondary small" for="color_bege">Bege</label></div></div>
+                <div class="col-6"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="colors" value="Azul" id="color_azul"><label class="form-check-label text-secondary small" for="color_azul">Azul</label></div></div>
+                <div class="col-6"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="colors" value="Azul Marinho" id="color_marinho"><label class="form-check-label text-secondary small" for="color_marinho">Azul Marinho</label></div></div>
+                <div class="col-6"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="colors" value="Ciano" id="color_ciano"><label class="form-check-label text-secondary small" for="color_ciano">Ciano</label></div></div>
+                <div class="col-6"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="colors" value="Bordo" id="color_bordo"><label class="form-check-label text-secondary small" for="color_bordo">Bordo</label></div></div>
+                <div class="col-6"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="colors" value="Magenta" id="color_magenta"><label class="form-check-label text-secondary small" for="color_magenta">Magenta</label></div></div>
+                <div class="col-6"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="colors" value="Lilás" id="color_lilas"><label class="form-check-label text-secondary small" for="color_lilas">Lilás</label></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-medium text-dark mb-2">Tamanhos Disponíveis</label>
+            <div class="p-3 border bg-white" style="border-radius: 0px; border-color: #eadecc !important; max-height: 220px; overflow-y: auto;">
+              <div class="row g-2">
+                <div class="col-4"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="sizes" value="PP" id="size_pp"><label class="form-check-label text-secondary small" for="size_pp">PP</label></div></div>
+                <div class="col-4"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="sizes" value="P" id="size_p"><label class="form-check-label text-secondary small" for="size_p">P</label></div></div>
+                <div class="col-4"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="sizes" value="M" id="size_m"><label class="form-check-label text-secondary small" for="size_m">M</label></div></div>
+                <div class="col-4"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="sizes" value="G" id="size_g"><label class="form-check-label text-secondary small" for="size_g">G</label></div></div>
+                <div class="col-4"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="sizes" value="XG" id="size_xg"><label class="form-check-label text-secondary small" for="size_xg">XG</label></div></div>
+                <div class="col-4"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="sizes" value="XXG" id="size_xxg"><label class="form-check-label text-secondary small" for="size_xxg">XXG</label></div></div>
+                <div class="col-4"><div class="form-check"><input class="form-check-input shadow-none" type="checkbox" name="sizes" value="XXXG" id="size_xxxg"><label class="form-check-label text-secondary small" for="size_xxxg">XXXG</label></div></div>
+              </div>
+            </div>
           </div>
 
           <div class="col-12 mt-4">
             <div class="form-check form-switch d-flex align-items-center gap-2">
-              <input class="form-check-input m-0 fs-4" type="checkbox" role="switch" id="active" name="active" value="true">
+              <input class="form-check-input m-0 fs-4 shadow-none" type="checkbox" role="switch" id="active" name="active" value="true">
               <label class="form-check-label fw-medium text-dark" style="cursor: pointer;" for="active">Produto Ativo (Visível no site imediatamente)</label>
             </div>
           </div>
@@ -59,8 +94,8 @@
         <hr class="my-5" style="border-color: #eadecc;">
 
         <div class="d-flex gap-3 justify-content-end">
-          <a href="/admin/products" class="btn btn-premium-outline px-4 py-2">CANCELAR</a>
-          <button type="submit" class="btn btn-premium px-5 py-2">SALVAR PRODUTO</button>
+          <a href="/admin/products" class="btn btn-premium-outline px-4 py-2" style="border-radius: 0px;">CANCELAR</a>
+          <button type="submit" class="btn btn-premium px-5 py-2" style="border-radius: 0px;">SALVAR PRODUTO</button>
         </div>
 
       </form>

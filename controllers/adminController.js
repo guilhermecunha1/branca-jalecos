@@ -14,19 +14,7 @@ const {ZodError} = require("zod")
     const formatZodErrors = require("../utils/formatZodErrors")
 
 
-    //Controllers:
-
- /*function addFlash(req, type, msg) {
-    req.session.flash = {type, msg}
-}
-
-function formatZodErrors(error) {
-  if (!(error instanceof ZodError)) {
-    return [];
-  }
-
-  return error.issues.map((issue) => ({ texto: issue.message }));
-}*/
+//Controllers:
 
 
 
@@ -54,13 +42,22 @@ async function showNewProductForm(req, res) {
 }
 
 async function createProduct(req, res) {
-    const {name, slug, basePrice, gender, description, active} = req.body
+    const {...productData} = req.body
 
     try{
 
+        // Transforma as cores e tamanhos em Arrays
+        if (productData.colors && !Array.isArray(productData.colors)) {
+            productData.colors = [productData.colors]
+        }
+
+        if (productData.sizes && !Array.isArray(productData.sizes)) {
+            productData.sizes = [productData.sizes]
+        }
+
         //Validação
-        productSchema.parse({name, slug, basePrice, gender, description})
-        await Product.create({name, slug, basePrice, gender, description, active})
+        productSchema.parse(productData)
+        await Product.create(productData)
 
         addFlash(req, "alert-success", "Produto Criado Com Sucesso")
         res.redirect("/admin/products")
@@ -105,6 +102,8 @@ async function showEditProductForm(req, res) {
 async function editProduct(req, res) {
 
     const {id, ...productData} = req.body
+
+    //Transforma o active em true
     productData.active = req.body.active === "true"
 
     try{
@@ -128,7 +127,7 @@ async function editProduct(req, res) {
         res.redirect("/admin/products")
 
     }
-}
+}     
 
 
 
