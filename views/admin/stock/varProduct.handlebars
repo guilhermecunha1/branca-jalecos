@@ -1,0 +1,90 @@
+<div class="container py-5">
+  
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 animate-fade-in-up" style="animation-delay: 0.1s;">
+    <div>
+      <p class="text-uppercase small fw-semibold m-0" style="color: #f18e3f; letter-spacing: 2px;">Gerenciamento de Variações</p>
+      <h2 class="fw-light text-dark m-0" style="font-size: 2.2rem;">
+        <span class="brand-jalecos">{{product.name}}</span>
+      </h2>
+      <p class="table-product-slug m-0 mt-1">Ref: {{product.slug}} | Linha: {{product.gender}}</p>
+    </div>
+    
+    <div class="mt-3 mt-md-0">
+      <a href="/admin/stock/product/{{product._id}}/edit" class="btn btn-premium px-4 py-2 d-inline-flex align-items-center" style="height: 45px;">
+        Editar
+      </a>
+      <a href="/admin/stock" class="btn btn-premium-outline px-4 py-2 d-inline-flex align-items-center" style="height: 45px;">
+        Voltar
+      </a>
+    </div>
+  </div>
+
+  {{> _errors}}
+  {{> _flashMsg}}
+
+  {{#if product.variations}}
+    
+    <div class="table-responsive shadow-sm animate-fade-in-up" style="animation-delay: 0.2s; border-radius: 4px; overflow: hidden; background-color: #ffffff;">
+      <table class="table custom-admin-table align-middle m-0">
+        
+        <thead>
+          <tr>
+            <th scope="col" class="table-header-premium ps-4">Cor</th>
+            <th scope="col" class="table-header-premium">Tamanho</th>
+            <th scope="col" class="table-header-premium text-center" style="width: 160px;">Qtd Atual</th>
+            <th scope="col" class="table-header-premium text-end pe-4" style="width: 160px;">Ações Rápidas</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          {{#each product.variations}}
+            <tr>
+              
+              <td class="table-text-premium fw-semibold text-dark ps-4 py-3">
+                {{this.color}}
+              </td>
+              
+              <td class="table-text-premium py-3">
+                <span class="badge bg-light text-dark border fw-normal px-2 py-1" style="border-radius: 4px; border-color: #eadecc !important; font-size: 0.8rem;">
+                  {{this.size}}
+                </span>
+              </td>
+              
+              <td class="table-text-premium text-center fw-bold py-3 text-dark" style="font-size: 1.1rem;">
+                {{this.stock}}
+              </td>
+              
+              <td class="py-3 text-end pe-4">
+                <div class="d-inline-flex gap-2 align-items-center">
+                  
+                  <button type="button" 
+                          class="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center p-0" 
+                          style="width: 32px; height: 32px; font-size: 1.1rem; font-weight: bold; transition: all 0.2s;" 
+                          data-product="{{../product._id}}" data-variation="{{this._id}}" data-action="decrease">
+                    &minus;
+                  </button>
+                  
+                  <button type="button" 
+                          class="btn btn-dark rounded-circle d-flex align-items-center justify-content-center p-0" 
+                          style="width: 32px; height: 32px; font-size: 1.1rem; font-weight: bold; background-color: #2c2c2c; border-color: #2c2c2c;" 
+                          data-product="{{../product._id}}" data-variation="{{this._id}}" data-action="increase">
+                    &plus;
+                  </button>
+                  
+                </div>
+              </td>
+              
+            </tr>
+          {{/each}}
+        </tbody>
+
+      </table>
+    </div>
+
+  {{else}}
+    <div class="text-center py-5 bg-white border" style="border-color: #eadecc !important; border-radius: 4px;">
+        <p class="text-muted fw-light m-0">Nenhuma variação de estoque encontrada para este produto.</p>
+    </div>
+  {{/if}}
+
+</div>

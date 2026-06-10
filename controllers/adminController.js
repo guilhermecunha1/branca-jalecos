@@ -16,7 +16,20 @@ const {ZodError} = require("zod")
 
 //Controllers:
 
+function generateVariations(colors, sizes) { //Cria todas variações de jalecos
+    const variations = []
 
+    for (const color of colors){
+        for(const size of sizes){
+            variations.push({
+                color,
+                size,
+                stock: 0
+            })
+        }
+    }
+    return variations
+}
 
 async function home(req, res) {
     res.render("admin/index")
@@ -57,6 +70,15 @@ async function createProduct(req, res) {
 
         //Validação
         productSchema.parse(productData)
+
+        // Gera as variações e cria no model
+        productData.variations = generateVariations(
+            productData.colors,
+            productData.sizes
+        )
+
+        console.log(productData.variations)
+
         await Product.create(productData)
 
         addFlash(req, "alert-success", "Produto Criado Com Sucesso")
@@ -70,6 +92,7 @@ async function createProduct(req, res) {
         }
 
         addFlash(req, "alert-danger", "Erro ao salvar categoria")
+        console.log(error)
         res.redirect("/admin/products/create")
     }
 }
@@ -106,6 +129,15 @@ async function editProduct(req, res) {
     //Transforma o active em true
     productData.active = req.body.active === "true"
 
+        // Transforma as cores e tamanhos em Arrays
+    if (productData.colors && !Array.isArray(productData.colors)) {
+        productData.colors = [productData.colors]
+    }
+
+    if (productData.sizes && !Array.isArray(productData.sizes)) {
+        productData.sizes = [productData.sizes]
+    }
+
     try{
 
         editProductSchema.parse(productData)
@@ -129,6 +161,28 @@ async function editProduct(req, res) {
     }
 }     
 
+async function manageStock(req, res) {
+    try{
+        const stock = await loadProducts()
+        res.render("admin/stock/manage", {stock})
+    }catch(error){
+        addFlash(req, "alert-danger", "Erro ao carregar estoque, tente novamente.")
+        res.redirect("/admin")
+    }
+}
+
+async function variationsProductView(req, res) {
+    try{
+
+        const product = await Product.findById(req.params.id).lean()
+        console.log(product.variations)
+        res.render("admin/stock/varProduct", {product})
+
+    }catch(error){
+        addFlash(req, "alert-danger", "Erro ao carregar estoque do produto")
+        res.redirect("/admin/stock")
+    }
+}
 
 
 
@@ -143,4 +197,6 @@ module.exports = {
     deleteProduct,
     showEditProductForm,
     editProduct,
+    manageStock,
+    variationsProductView
 }

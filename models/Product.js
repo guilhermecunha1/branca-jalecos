@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const { required } = require("zod/mini")
 const Schema = mongoose.Schema
 
 // Tamanhos e Cores:
@@ -59,13 +60,33 @@ const Product = new Schema({
     },
 
     colors: [{
-        type: "String",
+        type: String,
         enum: COLORS
     }],
 
     sizes: [{
-        type: "String",
+        type: String,
         enum: SIZES
+    }],
+
+    //Criação das variações pro estoque:
+    variations: [{
+        color: {
+            type: String,
+            enum: COLORS,
+            required: true
+        },
+
+        size:{
+            type: String,
+            enum: SIZES,
+            required: true
+        },
+
+        stock: {
+            type: Number,
+            default: 0
+        }
     }]
     
 

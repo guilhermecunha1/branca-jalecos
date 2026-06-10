@@ -11,6 +11,8 @@ router.post("/products/create", adminController.createProduct)
 router.post("/products/delete/:id", adminController.deleteProduct)
 router.get("/products/edit/:id", adminController.showEditProductForm)
 router.post("/products/edit", adminController.editProduct)
+router.get("/stock", adminController.manageStock)
+router.get("/stock/product/:id", adminController.variationsProductView)
 
 
 module.exports = router
