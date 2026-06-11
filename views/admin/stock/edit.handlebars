@@ -1,0 +1,79 @@
+<div class="container py-5">
+  
+  <div class="mb-5 animate-fade-in-up" style="animation-delay: 0.1s;">
+    <p class="text-uppercase small fw-semibold m-0" style="color: #f18e3f; letter-spacing: 2px;">Edição em Lote</p>
+    <h2 class="fw-light text-dark m-0" style="font-size: 2.2rem;">
+      Editar Estoque: <span class="brand-branca">{{product.name}}</span>
+    </h2>
+    <p class="table-product-slug m-0 mt-1">Ref: {{product.slug}} | Linha: {{product.gender}}</p>
+  </div>
+
+  {{> _errors}}
+  {{> _flashMsg}}
+
+  {{#if product.variations}}
+    
+    <form action="/admin/stock/product/{{product._id}}/edit" method="POST" class="animate-fade-in-up" style="animation-delay: 0.2s;">
+      
+      <div class="table-responsive shadow-sm mb-4" style="border-radius: 4px; overflow: hidden; background-color: #ffffff;">
+        <table class="table custom-admin-table align-middle m-0">
+          
+          <thead>
+            <tr>
+              <th scope="col" class="table-header-premium ps-4">Cor</th>
+              <th scope="col" class="table-header-premium">Tamanho</th>
+              <th scope="col" class="table-header-premium text-center" style="width: 180px;">Quantidade em Estoque</th>
+            </tr>
+          </thead>
+          
+          <tbody>
+            {{#each product.variations}}
+              <tr>
+                <input type="hidden" name="variationIds" value="{{this._id}}">
+                
+                <td class="table-text-premium fw-semibold text-dark ps-4 py-3">
+                  {{this.color}}
+                </td>
+                
+                <td class="table-text-premium py-3">
+                  <span class="badge bg-light text-dark border fw-normal px-2 py-1" style="border-radius: 4px; border-color: #eadecc !important;">
+                    {{this.size}}
+                  </span>
+                </td>
+                
+                <td class="py-2 text-center">
+                  <input type="number" 
+                         name="stocks" 
+                         value="{{this.stock}}" 
+                         class="form-control text-center mx-auto" 
+                         min="0" 
+                         required
+                         style="width: 100px; border-radius: 4px; border-color: #eadecc; font-weight: 600;">
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+
+        </table>
+      </div>
+
+      <div class="d-flex gap-3 justify-content-end align-items-center">
+        <a href="/admin/stock/product/{{product._id}}" class="btn btn-premium-outline px-4 py-2">
+          Cancelar
+        </a>
+        
+        <button type="submit" class="btn btn-premium px-5 py-2">
+          Salvar Alterações
+        </button>
+      </div>
+
+    </form>
+
+  {{else}}
+    <div class="text-center py-5 bg-white border" style="border-color: #eadecc !important; border-radius: 4px;">
+        <p class="text-muted fw-light m-0">Esse produto não possui variações para serem editadas.</p>
+        <a href="/admin/stock" class="btn btn-premium-outline mt-3">Voltar ao Estoque</a>
+    </div>
+  {{/if}}
+
+</div>

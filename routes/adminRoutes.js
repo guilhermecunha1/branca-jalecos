@@ -13,6 +13,8 @@ router.get("/products/edit/:id", adminController.showEditProductForm)
 router.post("/products/edit", adminController.editProduct)
 router.get("/stock", adminController.manageStock)
 router.get("/stock/product/:id", adminController.variationsProductView)
+router.get("/stock/product/:id/edit", adminController.editStockView)
+router.post("/stock/product/:id/edit", adminController.editStock)
 
 
 module.exports = router

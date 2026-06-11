@@ -16,6 +16,8 @@ const {ZodError} = require("zod")
 
 //Controllers:
 
+
+    // Umas ajudadinha ai pra encurtar codigo tlgd
 function generateVariations(colors, sizes) { //Cria todas variações de jalecos
     const variations = []
 
@@ -31,12 +33,14 @@ function generateVariations(colors, sizes) { //Cria todas variações de jalecos
     return variations
 }
 
-async function home(req, res) {
-    res.render("admin/index")
-}
-
 async function loadProducts(req, res) {
     return Product.find().lean().sort({active: -1, createdAt: -1})
+}
+
+    //Aqui é os codigo mesmo mesmo
+
+async function home(req, res) {
+    res.render("admin/index")
 }
 
 async function manageProducts(req, res) {
@@ -175,12 +179,49 @@ async function variationsProductView(req, res) {
     try{
 
         const product = await Product.findById(req.params.id).lean()
-        console.log(product.variations)
         res.render("admin/stock/varProduct", {product})
 
     }catch(error){
         addFlash(req, "alert-danger", "Erro ao carregar estoque do produto")
         res.redirect("/admin/stock")
+    }
+}
+
+async function editStockView(req, res) {
+    try{
+        const product = await Product.findById(req.params.id).lean()
+        res.render("admin/stock/edit", {product})
+    }catch(error){
+        addFlash(req, "alert-danger", "Erro ao carregar pagina de edição")
+        res.redirect("/admin/stock")
+    }
+}
+
+async function editStock(req, res, ) {
+
+    try{
+        const {stocks, variationIds} = req.body
+        console.log("OLA MUNDO")
+        console.log(req.body)
+        const product = await Product.findById(req.params.id)
+        
+        for(const variation of product.variations){
+
+            const index  = variationIds.indexOf(variation._id.toString())
+            
+            if(index !== -1) {
+                variation.stock = Number(stocks[index])
+            }
+        }
+        await product.save()
+
+        addFlash(req, "alert-success", "Estoque modificado com sucesso")
+        res.redirect("/admin/stock")
+        
+    }catch(error){
+        addFlash(req, "alert-danger", "Erro ao modificar estoque")
+        res.redirect("/admin/stock")
+
     }
 }
 
@@ -198,5 +239,7 @@ module.exports = {
     showEditProductForm,
     editProduct,
     manageStock,
-    variationsProductView
+    variationsProductView,
+    editStockView,
+    editStock
 }
