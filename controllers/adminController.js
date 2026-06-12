@@ -33,6 +33,32 @@ function generateVariations(colors, sizes) { //Cria todas variações de jalecos
     return variations
 }
 
+function mergeVariations(oldVariations = [], colors = [], sizes = []) {
+
+    const newVariations = generateVariations(colors, sizes)
+
+    const mergedVariations = []
+
+    for (const variation of newVariations) {
+
+        const existing = oldVariations.find(oldVariation =>
+            oldVariation.color === variation.color &&
+            oldVariation.size === variation.size
+        )
+
+        if (existing) {
+            mergedVariations.push(existing)
+        } else {
+            mergedVariations.push(variation)
+        }
+    }
+
+    return mergedVariations
+}
+
+
+
+
 async function loadProducts(req, res) {
     return Product.find().lean().sort({active: -1, createdAt: -1})
 }
@@ -81,7 +107,6 @@ async function createProduct(req, res) {
             productData.sizes
         )
 
-        console.log(productData.variations)
 
         await Product.create(productData)
 
@@ -130,22 +155,33 @@ async function editProduct(req, res) {
 
     const {id, ...productData} = req.body
 
-    //Transforma o active em true
-    productData.active = req.body.active === "true"
-
-        // Transforma as cores e tamanhos em Arrays
-    if (productData.colors && !Array.isArray(productData.colors)) {
-        productData.colors = [productData.colors]
-    }
-
-    if (productData.sizes && !Array.isArray(productData.sizes)) {
-        productData.sizes = [productData.sizes]
-    }
-
     try{
+            //Transforma o active em true
+        productData.active = req.body.active === "true"
+
+            // Transforma as cores e tamanhos em Arrays
+        if (productData.colors && !Array.isArray(productData.colors)) {
+            productData.colors = [productData.colors]
+        }
+
+        if (productData.sizes && !Array.isArray(productData.sizes)) {
+            productData.sizes = [productData.sizes]
+        }
+
+        const product = await Product.findById(id)
+
+        if (!product) {
+            throw new Error("Produto não encontrado")
+        }
+
+        productData.variations = mergeVariations(
+            product.variations,
+            productData.colors,
+            productData.sizes
+        )
 
         editProductSchema.parse(productData)
-        
+        console.log(productData)
         await Product.findByIdAndUpdate(id, productData)
 
         addFlash(req, "alert-success", "Produto Modificado com Sucesso!")
@@ -201,8 +237,6 @@ async function editStock(req, res, ) {
 
     try{
         const {stocks, variationIds} = req.body
-        console.log("OLA MUNDO")
-        console.log(req.body)
         const product = await Product.findById(req.params.id)
         
         for(const variation of product.variations){
