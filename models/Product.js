@@ -1,5 +1,4 @@
 const mongoose = require("mongoose")
-const { required } = require("zod/mini")
 const Schema = mongoose.Schema
 
 // Tamanhos e Cores:

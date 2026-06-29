@@ -89,7 +89,7 @@ async function createProduct(req, res) {
 
     try{
 
-        // Transforma as cores e tamanhos em Arrays
+        // Transforma as cores e tamanhos em Arrays (Caso o usuario envie somente 1 variação de cor/tam)
         if (productData.colors && !Array.isArray(productData.colors)) {
             productData.colors = [productData.colors]
         }
@@ -159,7 +159,7 @@ async function editProduct(req, res) {
             //Transforma o active em true
         productData.active = req.body.active === "true"
 
-            // Transforma as cores e tamanhos em Arrays
+            // Transforma as cores e tamanhos em Arrays (Caso o usuario envie somente 1 variação de cor/tam)
         if (productData.colors && !Array.isArray(productData.colors)) {
             productData.colors = [productData.colors]
         }
@@ -181,7 +181,7 @@ async function editProduct(req, res) {
         )
 
         editProductSchema.parse(productData)
-        console.log(productData)
+        
         await Product.findByIdAndUpdate(id, productData)
 
         addFlash(req, "alert-success", "Produto Modificado com Sucesso!")
@@ -211,6 +211,8 @@ async function manageStock(req, res) {
     }
 }
 
+
+
 async function variationsProductView(req, res) {
     try{
 
@@ -222,6 +224,8 @@ async function variationsProductView(req, res) {
         res.redirect("/admin/stock")
     }
 }
+
+
 
 async function editStockView(req, res) {
     try{
