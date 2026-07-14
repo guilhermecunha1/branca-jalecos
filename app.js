@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 1476
 //Routes Connection
     const indexRoutes = require("./routes/indexRoutes")
     const adminRoutes = require("./routes/adminRoutes")
+    const userRoutes = require('./routes/userRoutes')
 
 //Middlewares
     const flashMessages = require("./middlewares/flash")
@@ -48,6 +49,7 @@ const PORT = process.env.PORT || 1476
 //Rotas
     app.use("/", indexRoutes)
     app.use('/admin', adminRoutes)
+    app.use('/user', userRoutes)
 
 
 

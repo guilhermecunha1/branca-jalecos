@@ -242,11 +242,14 @@ async function editStock(req, res, ) {
     try{
         const {stocks, variationIds} = req.body
         const product = await Product.findById(req.params.id)
+
         
         for(const variation of product.variations){
 
+            
             const index  = variationIds.indexOf(variation._id.toString())
             
+            //Se a variação existir
             if(index !== -1) {
                 variation.stock = Number(stocks[index])
             }
