@@ -1,1 +1,91 @@
-<h1>Bem vindo a pagina de registro</h1>
+<div class="container py-5 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  
+  <div class="col-12 col-sm-10 col-md-8 col-lg-5 animate-fade-in-up">
+    
+    <!-- Card de Registro (Usando o efeito de elevação sutil do seu CSS) -->
+    <div class="card p-4 p-md-5 img-editorial-wrapper" style="border-radius: 4px;">
+      
+      <!-- Cabeçalho / Logo -->
+      <div class="text-center mb-4">
+        <h3 class="m-0 mb-1">
+          <span class="brand-branca">BRANCA</span><span class="brand-jalecos">Jalecos</span>
+        </h3>
+        <p class="text-muted small fw-light">Crie sua conta para acessar o sistema</p>
+      </div>
+
+      {{> _errors}}
+      {{> _flashMsg}}
+
+      <!-- Formulário de Cadastro -->
+      <form action="/users/register" method="POST">
+        
+        <!-- Campo: Nome Completo -->
+        <div class="mb-3">
+          <label for="name" class="form-label text-uppercase text-muted fw-semibold" style="font-size: 0.7rem; letter-spacing: 1px;">Nome Completo</label>
+          <input type="text" 
+                 id="name" 
+                 name="name" 
+                 value="{{oldValues.name}}"
+                 class="form-control" 
+                 placeholder="Ex: João Silva" 
+                 required
+                 style="border-radius: 4px; border-color: #eadecc; height: 45px; font-size: 0.9rem;">
+                 
+        </div>
+
+        <!-- Campo: E-mail -->
+        <div class="mb-3">
+          <label for="email" class="form-label text-uppercase text-muted fw-semibold" style="font-size: 0.7rem; letter-spacing: 1px;">E-mail</label>
+          <input type="email" 
+                 id="email" 
+                 name="email" 
+                 value="{{oldValues.email}}"
+                 class="form-control" 
+                 placeholder="seuemail@exemplo.com" 
+                 required
+                 style="border-radius: 4px; border-color: #eadecc; height: 45px; font-size: 0.9rem;">
+        </div>
+
+        <!-- Campo: Senha -->
+        <div class="mb-3">
+          <label for="password" class="form-label text-uppercase text-muted fw-semibold" style="font-size: 0.7rem; letter-spacing: 1px;">Senha</label>
+          <input type="password" 
+                 id="password" 
+                 name="password" 
+                 class="form-control" 
+                 placeholder="Mínimo 8 caracteres" 
+                 required
+                 style="border-radius: 4px; border-color: #eadecc; height: 45px; font-size: 0.9rem;">
+        </div>
+
+        <!-- Campo: Confirmar Senha -->
+        <div class="mb-4">
+          <label for="confirmPassword" class="form-label text-uppercase text-muted fw-semibold" style="font-size: 0.7rem; letter-spacing: 1px;">Confirmar Senha</label>
+          <input type="password" 
+                 id="confirmPassword" 
+                 name="confirmPassword" 
+                 class="form-control" 
+                 placeholder="Repita a senha" 
+                 required
+                 style="border-radius: 4px; border-color: #eadecc; height: 45px; font-size: 0.9rem;">
+        </div>
+
+        <!-- Botão de Ação usando seu .btn-premium -->
+        <button type="submit" class="btn btn-premium w-100 mb-3" style="height: 48px;">
+          Criar Conta
+        </button>
+
+        <!-- Link para login usando o efeito de link minimalista do seu CSS -->
+        <div class="text-center mt-4">
+          <span class="text-muted small">Já possui uma conta? </span>
+          <a href="/login" class="btn-action-premium" style="font-size: 0.8rem !important;">
+            Fazer Login
+          </a>
+        </div>
+
+      </form>
+
+    </div>
+    
+  </div>
+</div>

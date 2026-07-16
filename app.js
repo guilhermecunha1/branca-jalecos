@@ -49,7 +49,7 @@ const PORT = process.env.PORT || 1476
 //Rotas
     app.use("/", indexRoutes)
     app.use('/admin', adminRoutes)
-    app.use('/user', userRoutes)
+    app.use('/users', userRoutes)
 
 
 
