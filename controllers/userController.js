@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const {ZodError} = require("zod")
 const bcrypt = require("bcrypt")
+const passport = require("passport")
 
 //Models
 require("../models/User")
@@ -12,18 +13,41 @@ const {userSchema} = require("../validators/userSchema")
 //Utils
 const addFlash = require('../utils/addFlash')
 const formatZodErrors = require("../utils/formatZodErrors")
+const passport = require('passport')
 
 
 
-async function loginUser(req, res) {
+async function loginUserView(req, res) {
     res.render("users/login", {layout: 'auth'})
 }
 
 
 
-async function registerUser(req, res){
+async function registerUserView(req, res){
     res.render("users/register", {layout: 'auth'})
 
+}
+
+async function loginUser(req, res, next) {
+
+    passport.authenticate('local', {
+        successRedirect: "/",
+        failureRedirect: "/users/login",
+        failureFlash: true // Messages!
+    }) 
+    
+}
+
+async function logoutUser(req, res) {
+    req.logout(function(err){
+
+        if(err){
+            return next (err)
+        }
+
+        addFlash(req, "alert-success", "Conta desconectada com sucesso")
+        res.redirect('/')
+    })
 }
 
 async function createUser(req, res) {
@@ -74,7 +98,9 @@ async function createUser(req, res) {
 }
 
 module.exports = {
-    loginUser,
-    registerUser,
+    loginUserView,
+    registerUserView,
     createUser,
+    loginUser, // !!
+    logoutUser, // !!
 }
