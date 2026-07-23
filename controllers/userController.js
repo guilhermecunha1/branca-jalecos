@@ -13,7 +13,10 @@ const {userSchema} = require("../validators/userSchema")
 //Utils
 const addFlash = require('../utils/addFlash')
 const formatZodErrors = require("../utils/formatZodErrors")
-const passport = require('passport')
+
+//Middlewares
+const {isAuthenticated} = require("../middlewares/auth")
+
 
 
 
@@ -29,12 +32,12 @@ async function registerUserView(req, res){
 }
 
 async function loginUser(req, res, next) {
-
+    console.log("Logou")
     passport.authenticate('local', {
         successRedirect: "/",
         failureRedirect: "/users/login",
         failureFlash: true // Messages!
-    }) 
+    }) (req, res, next)
     
 }
 
@@ -70,6 +73,9 @@ async function createUser(req, res) {
         role: "user",
         active: true
     })
+
+    //req.login()
+
     console.log("Conta Criada")
     addFlash(req, "alert-success", "Usuario registrado.")
     res.redirect("/")
@@ -101,6 +107,6 @@ module.exports = {
     loginUserView,
     registerUserView,
     createUser,
-    loginUser, // !!
+    loginUser,
     logoutUser, // !!
 }

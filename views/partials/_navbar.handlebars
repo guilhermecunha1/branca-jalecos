@@ -20,16 +20,24 @@
         <li class="nav-item">
           <a class="nav-link nav-link-custom px-3" href="/sobre">Nossa História</a>
         </li>
-
+        {{#if isAdmin}}
         <li class="nav-item">
           <a class="nav-link nav-link-custom px-3" href="/admin">Admin</a>
         </li>
+        {{/if}}
+
       </ul>
-      
+
+      {{#if user}}
+          <a href="/users/logout" class="btn btn-premium-outline text-secondary text-decoration-none small fw-medium hover-orange transition-all">Desconectar-se</a>
+      {{else}}
+
       <div class="d-flex align-items-center gap-4">
         <a href="/users/login" class="btn btn-premium-outline text-secondary text-decoration-none small fw-medium hover-orange transition-all">Entrar</a>
         <a href="/users/register" class="btn btn-premium btn-sm px-4 py-2" style="font-size: 0.85rem;">CRIAR CONTA</a>
       </div>
+      {{/if}}
+      
     </div>
   </div>
 </nav>

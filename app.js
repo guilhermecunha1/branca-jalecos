@@ -5,6 +5,8 @@ const app = express()
 const handlebars = require("express-handlebars")
 const path = require("path")
 const session = require("express-session")
+const passport = require("passport")
+require("./config/auth")(passport)
 
 const PORT = process.env.PORT || 1476
 
@@ -13,8 +15,9 @@ const PORT = process.env.PORT || 1476
     const adminRoutes = require("./routes/adminRoutes")
     const userRoutes = require('./routes/userRoutes')
 
-//Middlewares
+//Utils
     const flashMessages = require("./middlewares/flash")
+const { nextTick } = require('process')
 
 
 
@@ -27,6 +30,17 @@ const PORT = process.env.PORT || 1476
         })
     )
 
+//Passport
+    app.use(passport.initialize())
+    app.use(passport.session())
+
+    
+    app.use((req, res, next) => {
+        res.locals.user = req.user //Manda pra todas as rotas o usuario que esta conectado !
+        res.locals.isAdmin = req.user?.role === "admin" //Envia pra view se o user é admin ou nao
+        next()
+    })
+
 //Body parser
     app.use(express.urlencoded({extended: true}))
     app.use(express.json())
@@ -35,7 +49,7 @@ const PORT = process.env.PORT || 1476
 //Flash messages
     app.use(flashMessages)
 
-// View engine
+// View engine - Handlebars
     app.engine('handlebars', handlebars.engine({defaultLayout: 'main'}))
     app.set('view engine', 'handlebars')
     app.set('views', path.join(__dirname, "views"))

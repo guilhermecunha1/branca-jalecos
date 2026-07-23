@@ -1,8 +1,9 @@
 const express = require("express")
 const router = express.Router()
 const adminController = require("../controllers/adminController")
+const { isAdmin } = require("../middlewares/auth")
 
-
+router.use(isAdmin)
 
 router.get('/', adminController.home)
 router.get("/products", adminController.manageProducts)

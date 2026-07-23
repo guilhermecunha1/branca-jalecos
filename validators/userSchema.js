@@ -25,7 +25,7 @@ const userSchema = z.object({
 
 }).refine(data => data.password === data.confirmPassword, {
     message: "As senhas nao se coincidem.",
-    path: ["confirmPassword"]    
+    path: ["confirmPassword"] //Mostra ao zod que o erro pertence ao confirmPassword
 })
 
 module.exports = {userSchema}
