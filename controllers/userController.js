@@ -61,12 +61,14 @@ async function createUser(req, res) {
 
     if(userExists){
         addFlash(req, "alert-danger", "Ja existe um usuario com este email, use outro e-mail ou entre em login")
-        return res.render("users/register")
+        return res.redirect("/users/register")
     }
 
     const hash = await bcrypt.hash(data.password, 10)
 
-    await User.create({
+    
+
+    const user = await User.create({
         name: data.name,
         email: data.email,
         password: hash,
@@ -74,11 +76,19 @@ async function createUser(req, res) {
         active: true
     })
 
-    //req.login()
+    req.login(user, (err) => {
 
-    console.log("Conta Criada")
-    addFlash(req, "alert-success", "Usuario registrado.")
-    res.redirect("/")
+        if(err) {
+            addFlash(req, "alert-danger", "Erro ao fazer o login")
+            return res.redirect("/")
+        }
+
+        addFlash(req, "alert-success", "Seja bem vindo !")
+        return res.redirect("/")
+    })
+
+    
+
 
 }  catch(error){
 
