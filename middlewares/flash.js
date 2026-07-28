@@ -1,5 +1,5 @@
 function flashMessages(req, res, next){
-    res.locals.flash = req.session.flash
+    res.locals.flash = req.session.flash || null
 
     delete req.session.flash
 

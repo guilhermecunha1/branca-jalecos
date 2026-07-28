@@ -32,12 +32,28 @@ async function registerUserView(req, res){
 }
 
 async function loginUser(req, res, next) {
-    console.log("Logou")
-    passport.authenticate('local', {
-        successRedirect: "/",
-        failureRedirect: "/users/login",
-        failureFlash: true // Messages!
-    }) (req, res, next)
+
+   passport.authenticate("local", (err, user, info) => {
+
+        if(err){return next(err)}
+
+        if(!user){
+            addFlash(req, "alert-danger", info.message)
+            return res.redirect("/users/login")
+        }
+
+        req.logIn(user, (err) => { 
+    
+        if(err) {return next(err)}
+
+        addFlash(req, "alert-success", "Login realizado com sucesso")
+
+        return res.redirect("/")
+     })
+
+   })(req, res, next)
+
+
     
 }
 
@@ -66,13 +82,12 @@ async function createUser(req, res) {
 
     const hash = await bcrypt.hash(data.password, 10)
 
-    
 
     const user = await User.create({
         name: data.name,
         email: data.email,
         password: hash,
-        role: "user",
+        role,
         active: true
     })
 
@@ -93,6 +108,8 @@ async function createUser(req, res) {
 }  catch(error){
 
     if(error instanceof ZodError){
+
+        console.error(error)
 
         const erros = formatZodErrors(error)
 
