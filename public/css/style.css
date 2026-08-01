@@ -1,3 +1,17 @@
+/* ==========================================================================
+   BRANCA JALECOS - STYLESHEET PRINCIPAL
+   
+   ÍNDICE:
+   1. Base e Tipografia
+   2. Navbar Flutuante (Glassmorphism & Segmented Control)
+   3. Componentes Globais (Botões, Cards, Alertas)
+   4. Tabelas Administrativas
+   5. Animações e Efeitos
+   ========================================================================== */
+
+/* ==========================================================================
+   1. BASE E TIPOGRAFIA
+   ========================================================================== */
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   background-color: #faf8f5;
@@ -5,28 +19,153 @@ body {
   overflow-x: hidden;
 }
 
-/* Customização da Tipografia da Marca */
 .brand-branca {
   font-weight: 700;
   color: #f18e3f;
   letter-spacing: 1.5px;
 }
+
 .brand-jalecos {
   font-weight: 300;
   color: #4a4a4a;
   letter-spacing: 1.5px;
 }
 
-/* Efeito de Link Minimalista */
+/* ==========================================================================
+   2. NAVBAR FLUTUANTE (ESTILO EDITORIAL / PÍLULA)
+   ========================================================================== */
+.navbar-floating-wrapper {
+  position: fixed;
+  top: 1.25rem;
+  left: 0;
+  right: 0;
+  padding: 0 1.5rem;
+  z-index: 1030;
+}
+
+.navbar-floating {
+  max-width: 1200px; /* Navbar mais larga para os botões não quebrarem */
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #eadecc;
+  border-radius: 100px;
+  padding: 0.6rem 1.5rem !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.navbar-spacer {
+  padding-top: 100px;
+}
+
+/* Efeito do Fundo do Grupo de Links (Segmented Control) */
+.nav-menu-pill {
+  background-color: rgba(0, 0, 0, 0.03); /* Fundo cinza super sutil */
+  padding: 4px;
+  border-radius: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+/* Links do Menu Flutuante */
+.nav-link-editorial {
+  color: #555555 !important;
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.5rem 1.2rem !important;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.nav-link-editorial:hover {
+  color: #1a1a1a !important;
+}
+
+/* Link Selecionado (Fundo Branco com sombra) */
+.nav-link-editorial.active {
+  background-color: #ffffff;
+  color: #1a1a1a !important;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* Botões do Menu Flutuante (Altura Padronizada e Alinhamento) */
+.btn-nav-outline,
+.btn-nav-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px; /* Trava a altura para ficarem exatamente iguais */
+  white-space: nowrap; /* Impede o texto de pular para baixo */
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  border-radius: 50px;
+  padding: 0 1.6rem;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+/* Botão Entrar (Sem borda ou borda sutil) */
+.btn-nav-outline {
+  border: 1px solid #eadecc;
+  background-color: transparent;
+  color: #1a1a1a;
+}
+
+.btn-nav-outline:hover {
+  border-color: #1a1a1a;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Botão Criar Conta (Preto Inter Style) */
+.btn-nav-solid {
+  background-color: #1a1a1a;
+  border: 1px solid #1a1a1a;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.2);
+}
+
+.btn-nav-solid:hover {
+  background-color: #333333;
+  border-color: #333333;
+  box-shadow: 0 6px 16px rgba(26, 26, 26, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Ajustes Responsivos para Navbar Mobile */
+@media (max-width: 991.98px) {
+  .navbar-floating {
+    border-radius: 20px;
+    padding: 1rem !important;
+  }
+  .nav-menu-pill {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+  }
+  .nav-link-editorial {
+    padding: 0.8rem 1rem !important;
+  }
+  .nav-link-editorial.active {
+    background-color: rgba(0, 0, 0, 0.03);
+    box-shadow: none;
+  }
+}
+
+/* Link Customizado Clássico (Para uso no rodapé ou links gerais) */
 .nav-link-custom {
   color: #5a5a5a;
   font-weight: 500;
   position: relative;
   transition: color 0.3s ease;
 }
+
 .nav-link-custom:hover {
   color: #f18e3f;
 }
+
 .nav-link-custom::after {
   content: '';
   position: absolute;
@@ -37,9 +176,14 @@ body {
   background-color: #f18e3f;
   transition: width 0.3s ease;
 }
+
 .nav-link-custom:hover::after {
   width: calc(100% - 32px);
 }
+
+/* ==========================================================================
+   3. COMPONENTES GLOBAIS (BOTÕES GERAIS, CARDS, ALERTAS)
+   ========================================================================== */
 
 /* Efeito de Elevação nos Cards */
 .img-editorial-wrapper {
@@ -48,131 +192,54 @@ body {
   background-color: #ffffff;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .img-editorial-wrapper:hover {
   transform: translateY(-5px);
   border-color: #f18e3f;
   box-shadow: 0 20px 40px rgba(241, 142, 63, 0.05);
 }
 
-/* public/css/style.css */
-
-/* public/css/style.css */
-
-/* --- BOTÕES PREMIUM (ESTILO GERAL) --- */
-.btn-premium, .btn-premium-outline {
-  font-weight: 600; /* Texto um pouco mais firme */
-  letter-spacing: 1.5px; /* Espaçamento de grife */
-  border-radius: 0px; /* Pontas retas estilo Sen-Knife */
-  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Transição suave */
-  text-transform: uppercase; /* Força maiúsculas */
-  font-size: 0.85rem; /* Tamanho elegante */
-  box-shadow: 0 0 0 rgba(0,0,0,0); /* Começa sem sombra */
+/* Botões Premium (Estilo Laranja Geral do Site - Mantido!) */
+.btn-premium, 
+.btn-premium-outline {
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  border-radius: 4px; 
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
 }
 
-/* 1. Botão Sólido (CRIAR CONTA / VER COLEÇÕES) */
 .btn-premium {
   background-color: #f18e3f;
   color: #ffffff !important;
   border: 1px solid #f18e3f;
-  border-radius: 4px;
-  transition: 0.4s;
 }
 
-/* Hover de Destaque Sólido (Inversão e Glow) */
 .btn-premium:hover {
   background-color: #ffffff;
   color: #f18e3f !important;
   border-color: #f18e3f;
-  box-shadow: 0 8px 25px rgba(241, 142, 63, 0.25); /* Glow Laranja Sofisticado */
-  transform: translateY(-2px); /* Elevação física */
+  box-shadow: 0 8px 25px rgba(241, 142, 63, 0.25);
+  transform: translateY(-2px);
 }
 
-/* 2. Botão Contornado (CONHEÇA A MARCA) */
 .btn-premium-outline {
   background-color: transparent;
-  color: #4a4a4a; /* Grafite sofisticado do logo */
-  border: 1px solid #d1d1d1; /* Borda cinza clara neutra */
-  border-radius: 4px;
-  transition: 0.4s;
+  color: #4a4a4a;
+  border: 1px solid #d1d1d1;
 }
 
-/* NOVO Hover Sofisticado para o Contornado */
 .btn-premium-outline:hover {
-  background-color: #ffffff; /* Fundo branco puro */
-  color: #f18e3f !important; /* Texto assume a cor da marca */
-  border-color: #f18e3f; /* Borda assume a cor da marca */
-  /* Sombra sutil e difusa para destacar o botão sobre o fundo off-white */
+  background-color: #ffffff;
+  color: #f18e3f !important;
+  border-color: #f18e3f;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); 
   transform: translateY(-2px);
 }
 
-/* public/css/style.css */
-
-/* --- ANIMAÇÃO DE SCROLL (REVEAL) --- */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px); /* Começa um pouco mais baixo */
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  will-change: transform, opacity; /* Otimização */
-}
-
-/* Estado Ativo (Entrada) */
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Estado de Saída (Quando o elemento some) */
-.reveal:not(.active) {
-  /* No design minimalista, quando sai, ele simplesmente some ou sobe levemente */
-  opacity: 0;
-  transform: translateY(-20px); /* Quando sobe, continua subindo sutilmente */
-  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
-}
-
-/* public/css/style.css */
-
-/* --- ANIMAÇÕES DE ENTRADA (INITIAL LOAD) --- */
-
-/* 1. Animação para os Textos e Botões */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(25px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up {
-  opacity: 0; /* Começa invisível enquanto o delay conta */
-  animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* 2. Animação Exclusiva para a Imagem do Jaleco */
-@keyframes heroImageReveal {
-  0% {
-    opacity: 0;
-    transform: scale(0.96) translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-.animate-hero-image {
-  opacity: 0;
-  animation: heroImageReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* ==========================================================================
-   DESIGN MINIMALISTA PARA NOTIFICAÇÕES (SUCESSO, ERRO E AVISO)
-   ========================================================================== */
-
-/* Container que alinha o alerta com o restante do conteúdo */
+/* Alertas Minimalistas */
 .minimal-alert-container {
   width: 100%; 
   margin-top: 0.5rem;
@@ -180,75 +247,59 @@ body {
   display: block;
 }
 
-/* Base idêntica para todas as caixas de alertas */
 #flash-msg, 
 .alert {
   padding: 1.1rem 1.5rem !important;
-  border-radius: 0px !important; /* Cantos retos alfaiataria */
+  border-radius: 0px !important; 
   font-size: 0.9rem;
   font-weight: 400;
   letter-spacing: 0.5px;
   border: none !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06); /* Sombra elegante */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
   border-left: 4px solid transparent !important;
 }
 
-/* --- SUCESSO (O que tinha sumido! Verde sutil e sofisticado) --- */
-#flash-msg[class*="success"],
-.alert-success {
+#flash-msg[class*="success"], .alert-success {
   background-color: #f1f9f4 !important;
   color: #11603a !important;
   border-left-color: #198754 !important;
 }
 
-/* --- ERRO / DANGER (Vermelho suave) --- */
-#flash-msg[class*="danger"],
-#flash-msg[class*="error"],
-.alert-danger {
+#flash-msg[class*="danger"], #flash-msg[class*="error"], .alert-danger {
   background-color: #fff3f3 !important;
   color: #a9212b !important;
   border-left-color: #dc3545 !important;
 }
 
-/* --- AVISO / WARNING (Tom Areia/Laranja) --- */
-#flash-msg[class*="warning"],
-.alert-warning {
+#flash-msg[class*="warning"], .alert-warning {
   background-color: #fff9f1 !important;
   color: #855d03 !important;
   border-left-color: #f18e3f !important;
 }
 
-
 /* ==========================================================================
-   TABELA ADMINISTRATIVA DE PRODUTOS - STYLE BRANCA
+   4. TABELAS ADMINISTRATIVAS
    ========================================================================== */
-
-/* Estilo das colunas do Cabeçalho */
-/* Cabeçalho da Tabela - Corrigido para Alto Contraste */
 .table-header-premium {
   letter-spacing: 1.5px;
   font-size: 0.8rem;
-  font-weight: 700; /* Texto mais negrito para destacar */
-  color: #1a1a1a !important; /* Preto suave para contraste total de leitura */
-  background-color: #f3efe9 !important; /* Um tom areia/off-white ligeiramente mais escuro que o fundo */
-  
-  /* Linha inferior estilizada com o Laranja da Marca para criar uma divisão perfeita */
+  font-weight: 700;
+  color: #1a1a1a !important;
+  background-color: #f3efe9 !important;
   border-bottom: 2px solid #f18e3f !important; 
   padding-top: 14px !important;
   padding-bottom: 14px !important;
 }
 
-/* Efeito hover suave nas linhas para dar sensação de dinamismo */
 .custom-admin-table tbody tr {
   transition: background-color 0.25s ease;
   border-bottom: 1px solid #f5f5f5;
 }
 
 .custom-admin-table tbody tr:hover {
-  background-color: #fdfcfb !important; /* Ilumina a linha suavemente ao passar o mouse */
+  background-color: #fdfcfb !important;
 }
 
-/* Tipografias internas da tabela */
 .visual-product-name {
   font-size: 0.95rem;
   letter-spacing: 0.3px;
@@ -256,7 +307,7 @@ body {
 
 .table-product-slug {
   font-size: 0.75rem;
-  font-family: monospace; /* Estilo técnico elegante para URLs */
+  font-family: monospace;
   color: #9b9b9b !important;
 }
 
@@ -265,7 +316,6 @@ body {
   letter-spacing: 0.3px;
 }
 
-/* Badges de Status Retos e Minimalistas */
 .badge-status {
   font-size: 0.7rem;
   text-transform: uppercase;
@@ -285,42 +335,29 @@ body {
   color: #bb2d3b;
 }
 
-/* Links de Ações Rápidas (Efeito sublinhado clássico de e-commerce de luxo) */
-
-/* ==========================================================================
-   BOTÕES DE AÇÃO DA TABELA (CONSOLIDADO E LIMPO)
-   ========================================================================== */
-
 .btn-action-premium {
-  /* 1. O Reset Necessário: Remove a "cara de botão" do navegador */
   background: none !important;
   border: none !important;
   padding: 0 !important;
   margin: 0 !important;
   font-family: inherit !important;
   cursor: pointer;
-  
-  /* 2. Estilização Visual (Igual para Link e Botão) */
   font-size: 0.75rem !important;
   font-weight: 600 !important;
   letter-spacing: 0.5px !important;
-  line-height: 1 !important; /* Trava a altura para não dar degrau */
+  line-height: 1 !important;
   color: #2b2b2b;
   text-decoration: none;
   display: inline-block;
-  
-  /* Linha inferior minimalista */
   border-bottom: 1px solid transparent !important;
   transition: all 0.2s ease;
 }
 
-/* Hover Geral (Editar) */
 .btn-action-premium:hover {
   color: #f18e3f !important;
   border-bottom-color: #f18e3f !important;
 }
 
-/* Customização do Excluir */
 .btn-action-premium.text-danger {
   color: #dc3545 !important;
 }
@@ -328,4 +365,57 @@ body {
 .btn-action-premium.text-danger:hover {
   color: #bd2130 !important;
   border-bottom-color: #bd2130 !important;
+}
+
+/* ==========================================================================
+   5. ANIMAÇÕES E EFEITOS
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: transform, opacity;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal:not(.active) {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes heroImageReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-hero-image {
+  opacity: 0;
+  animation: heroImageReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

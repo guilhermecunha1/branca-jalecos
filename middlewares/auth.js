@@ -10,6 +10,15 @@ function isAdmin(req, res, next){
         return res.redirect("/")
 }
 
+function isEmployee(req, res, next){
+    if(req.isAuthenticated() && req.user.role === "employee"){
+        return next()
+    }
+
+    addFlash(req, "alert-danger", "Voce nao tem permissão para acessar esta pagina")
+    return res.redirect("/")
+}
+
 function isAuthenticated(req, res, next){
 
     if(req.isAuthenticated()){

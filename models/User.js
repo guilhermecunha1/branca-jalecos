@@ -34,6 +34,6 @@ const User = new Schema({
         default: true
     }
 
-})
+}, {timestamps: true}) //VER SE PRECISA POR O TIMESTAMPS PRO CREATEDAT !!
 
 mongoose.model("users", User)

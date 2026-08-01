@@ -3,6 +3,7 @@ const connectDatabase = require("./config/db")
 const express = require("express")
 const app = express()
 const handlebars = require("express-handlebars")
+const helpers = require("./helpers/handlebars")
 const path = require("path")
 const session = require("express-session")
 const passport = require("passport")
@@ -38,11 +39,14 @@ const PORT = process.env.PORT || 1476
     app.use((req, res, next) => {
         res.locals.user = req.user //Manda pra todas as rotas o usuario que esta conectado !
         res.locals.isAdmin = req.user?.role === "admin" //Envia pra view se o user é admin ou nao
+        res.locals.isEmployee = req.user?.role === "employee" //Envia pra view se é funcionario
         next()
     })
 
-//Body parser
+//Body parser 
+    //isso faz com que informações enviadas pelo formulario virem req.body
     app.use(express.urlencoded({extended: true}))
+    //isso faz com que informações passadas em JSON virem req.body
     app.use(express.json())
 
 
@@ -50,7 +54,11 @@ const PORT = process.env.PORT || 1476
     app.use(flashMessages)
 
 // View engine - Handlebars
-    app.engine('handlebars', handlebars.engine({defaultLayout: 'main'}))
+    app.engine('handlebars', handlebars.engine({
+        defaultLayout: 'main',
+        helpers
+    }))
+    
     app.set('view engine', 'handlebars')
     app.set('views', path.join(__dirname, "views"))
 

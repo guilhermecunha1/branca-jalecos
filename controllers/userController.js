@@ -82,12 +82,11 @@ async function createUser(req, res) {
 
     const hash = await bcrypt.hash(data.password, 10)
 
-
     const user = await User.create({
         name: data.name,
         email: data.email,
         password: hash,
-        role,
+        role: 'user',
         active: true
     })
 
@@ -135,5 +134,5 @@ module.exports = {
     registerUserView,
     createUser,
     loginUser,
-    logoutUser, // !!
+    logoutUser, 
 }

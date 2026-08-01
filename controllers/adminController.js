@@ -3,7 +3,9 @@ const {ZodError} = require("zod")
 
 //Models:
     require("../models/Product")
-    const Product = mongoose.model("products")
+    const Product = mongoose.model("products") 
+    require("../models/User")
+    const User = mongoose.model('users')
 
 //Schemas:
     const {productSchema} = require("../validators/productSchema")
@@ -66,7 +68,7 @@ async function loadProducts(req, res) {
     //Aqui é os codigo mesmo mesmo
 
 async function home(req, res) {
-    res.render("admin/index")
+    res.render("admin/index", {currentPage: "admin"})
 }
 
 async function manageProducts(req, res) {
@@ -266,6 +268,18 @@ async function editStock(req, res, ) {
     }
 }
 
+async function viewUsersData(req, res) {
+    try{
+
+    const users = await User.find().lean().sort({createdAt: -1, active: -1})
+
+    res.render("admin/users/indexUsers", {users})
+
+    }catch(err){
+        console.error(err)
+    }
+}   
+
 
 
 
@@ -282,5 +296,6 @@ module.exports = {
     manageStock,
     variationsProductView,
     editStockView,
-    editStock
+    editStock,
+    viewUsersData
 }

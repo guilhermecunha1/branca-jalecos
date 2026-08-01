@@ -1,0 +1,99 @@
+<div class="container-fluid py-4 px-md-4">
+  
+
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
+    <div>
+      <p class="text-uppercase small fw-semibold m-0" style="color: #f18e3f; letter-spacing: 2px;">Painel Administrativo</p>
+      <h2 class="fw-light text-dark m-0" style="font-size: 2rem; letter-spacing: -0.5px;">Gerenciar Usuários</h2>
+    </div>
+    
+
+    <a href="/admin/usuarios/novo" class="btn btn-premium px-4 py-2">NOVO USUÁRIO</a>
+  </div>
+
+
+  <div class="bg-white border rounded-0 shadow-sm" style="border-color: #eadecc !important;">
+    <div class="table-responsive">
+      <table class="table custom-admin-table align-middle mb-0">
+        <thead>
+          <tr>
+            <th class="table-header-premium px-4">Usuário</th>
+            <th class="table-header-premium">Função</th>
+            <th class="table-header-premium">Status</th>
+            <th class="table-header-premium">Data de Cadastro</th>
+            <th class="table-header-premium text-end px-4">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+          {{#each users}}
+          <tr>
+
+            <td class="px-4 py-3">
+              <div class="visual-product-name fw-medium text-dark text-capitalize">{{this.name}}</div>
+              <div class="table-product-slug mt-1">{{this.email}}</div>
+            </td>
+            
+
+            <td>
+              {{#if (eq this.role "admin")}}
+                <span class="badge-status bg-dark text-white border border-dark">
+                  Admin
+                </span>
+              {{else}}
+                {{#if (eq this.role "employee")}}
+                  <span class="badge-status" style="background-color: #eef3f7; color: #3b5d73; border: 1px solid #d0dbe3;">
+                    Funcionário
+                  </span>
+                {{else}}
+                  <span class="badge-status" style="background-color: #f8f9fa; color: #6c757d; border: 1px solid #dee2e6;">
+                    Cliente
+                  </span>
+                {{/if}}
+              {{/if}}
+            </td>
+            
+
+            <td>
+              {{#if this.active}}
+                <span class="badge-status status-active">Ativo</span>
+              {{else}}
+                <span class="badge-status status-inactive">Bloqueado</span>
+              {{/if}}
+            </td>
+            
+
+            <td>
+              <span class="table-text-premium text-secondary">
+
+                {{formatDate this.createdAt}}
+              </span>
+            </td>
+            
+
+            <td class="text-end px-4">
+              <a href="/admin/usuarios/editar/{{this._id}}" class="btn-action-premium me-3">Editar</a>
+              
+
+              <form action="/admin/usuarios/deletar/{{this._id}}" method="POST" class="d-inline">
+                <button type="submit" class="btn-action-premium text-danger" onclick="return confirm('Tem certeza que deseja excluir o usuário {{this.name}} definitivamente?')">
+                  Excluir
+                </button>
+              </form>
+            </td>
+          </tr>
+          {{else}}
+
+          <tr>
+            <td colspan="5" class="text-center py-5">
+              <p class="text-secondary mb-0 fw-light" style="font-size: 0.95rem;">Nenhum usuário encontrado na base de dados.</p>
+            </td>
+          </tr>
+          {{/each}}
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
