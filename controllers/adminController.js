@@ -10,10 +10,12 @@ const {ZodError} = require("zod")
 //Schemas:
     const {productSchema} = require("../validators/productSchema")
     const {editProductSchema} = require("../validators/editProductSchema")
+    const {editUserSchema} = require("../validators/editUserSchema")
 
 //Utils:
     const addFlash = require("../utils/addFlash")
     const formatZodErrors = require("../utils/formatZodErrors")
+
 
 
 //Controllers:
@@ -278,7 +280,48 @@ async function viewUsersData(req, res) {
     }catch(err){
         console.error(err)
     }
-}   
+}
+
+async function viewUserEdit(req, res) {
+    try{
+    const user = await User.findById(req.params.id).lean()
+    res.render("admin/users/editUser", {user})
+    }
+    catch(err){
+        console.error(err)
+        res.redirect('/admin/users')
+    }
+}
+
+async function editUser(req, res) {
+        const {id, ...data} = req.body
+   
+    try{
+
+        editUserSchema.parse(data)
+
+        await User.findByIdAndUpdate(id, data)
+
+        addFlash(req, "alert-success", "Usuario modificado com sucesso")
+        res.redirect("/admin/users")
+
+    }catch(error){
+    
+
+        if(error instanceof ZodError){
+
+            const erros = formatZodErrors(error)
+            return res.render("admin/users/editUser", {
+                erros,
+                user: {_id: id, ...data}
+
+            })
+
+        }
+        addFlash(req, "alert-danger", "ERRO AO MODIFICAR USUARIO")
+        res.redirect("/admin/users")
+    }
+}
 
 
 
@@ -297,5 +340,7 @@ module.exports = {
     variationsProductView,
     editStockView,
     editStock,
-    viewUsersData
+    viewUsersData,
+    viewUserEdit,
+    editUser
 }

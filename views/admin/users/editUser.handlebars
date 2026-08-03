@@ -1,0 +1,122 @@
+<div class="container-fluid py-4 px-md-4">
+  
+  <!-- Cabeçalho -->
+  <div class="mb-4">
+    <a href="/admin/users" class="text-decoration-none text-secondary small fw-medium mb-3 d-inline-block hover-orange transition-all">&larr; Voltar para Usuários</a>
+    <h2 class="fw-light text-dark m-0" style="font-size: 2rem; letter-spacing: -0.5px;">Editar Usuário</h2>
+    <p class="text-secondary mt-1">Atualize as informações de cadastro e nível de acesso.</p>
+  </div>
+
+  {{>_flashMsg}}
+  {{>_errors}}
+
+  <!-- A classe gy-4 garante o espaçamento vertical no celular, sem quebrar as colunas no desktop -->
+  <div class="row align-items-start gy-4">
+    
+    <!-- Formulário Principal -->
+    <div class="col-md-7 col-lg-8">
+      <div class="bg-white border p-4 p-md-5 shadow-sm" style="border-color: #eadecc !important;">
+        
+        <form action="/admin/users/edit" method="POST">
+          
+          <input type="hidden" name="id" value="{{user._id}}">
+          <input type="hidden" name="active" value="{{user.active}}">
+
+          <div class="row">
+            <!-- Nome -->
+            <div class="col-lg-6 mb-4">
+              <label for="name" class="form-label text-uppercase small fw-semibold text-secondary" style="letter-spacing: 1px;">Nome Completo</label>
+              <input type="text" class="form-control rounded-0 shadow-none focus-premium" id="name" name="name" value="{{user.name}}" required>
+            </div>
+
+            <!-- Email (Bloqueado / Readonly) -->
+            <div class="col-lg-6 mb-4">
+              <label for="email" class="form-label text-uppercase small fw-semibold text-secondary" style="letter-spacing: 1px;">E-mail</label>
+              <input type="email" class="form-control rounded-0 shadow-none locked-input" id="email" name="email" value="{{user.email}}" readonly>
+              <div class="form-text small text-muted mt-1">O e-mail não pode ser alterado.</div>
+            </div>
+          </div>
+
+          <!-- Cargo -->
+          <div class="mb-5">
+            <label for="role" class="form-label text-uppercase small fw-semibold text-secondary" style="letter-spacing: 1px;">Nível de Acesso (Cargo)</label>
+            <select class="form-select rounded-0 shadow-none focus-premium" id="role" name="role" style="cursor: pointer;">
+              <!-- Usando o helper eq para deixar o cargo atual já selecionado -->
+              <option value="user" {{#if (eq user.role 'user')}}selected{{/if}}>Cliente (Usuário Comum)</option>
+              <option value="employee" {{#if (eq user.role 'employee')}}selected{{/if}}>Funcionário (Gerencia loja e pedidos)</option>
+              <option value="admin" {{#if (eq user.role 'admin')}}selected{{/if}}>Administrador (Acesso Total)</option>
+            </select>
+          </div>
+
+          <!-- Botões -->
+          <div class="d-flex flex-column flex-md-row gap-3 pt-4 border-top" style="border-color: #eadecc !important;">
+            <button type="submit" class="btn btn-premium px-5 py-3 text-center">SALVAR ALTERAÇÕES</button>
+            <a href="/admin/users" class="btn btn-premium-outline px-5 py-3 text-center text-decoration-none">CANCELAR</a>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+    
+    <!-- Painel Lateral (Status e Meta Informações) -->
+    <div class="col-md-5 col-lg-4">
+      <div class="bg-transparent border p-4" style="border-color: #eadecc !important;">
+        <p class="text-uppercase small fw-semibold mb-4" style="color: #f18e3f; letter-spacing: 1.5px;">Informações da Conta</p>
+        
+        <div class="mb-4">
+          <span class="d-block small text-secondary mb-2">Status Atual</span>
+          {{#if user.active}}
+            <span class="badge-status status-active" style="font-size: 0.8rem;">Ativo e Liberado</span>
+          {{else}}
+            <span class="badge-status status-inactive" style="font-size: 0.8rem;">Conta Bloqueada</span>
+          {{/if}}
+        </div>
+
+        <div class="mb-4">
+          <span class="d-block small text-secondary mb-1">ID no Banco de Dados</span>
+          <span class="table-product-slug bg-white px-2 py-1 border d-inline-block">{{user._id}}</span>
+        </div>
+
+        {{#if user.createdAt}}
+        <div class="mb-4">
+          <span class="d-block small text-secondary mb-1">Cliente desde</span>
+          <span class="table-text-premium fw-medium">{{formatDate user.createdAt}}</span>
+        </div>
+        {{/if}}
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Estilos adicionais para a tela de edição -->
+<style>
+  .focus-premium {
+    background-color: #faf8f5;
+    border: 1px solid #eadecc;
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+  .focus-premium:focus {
+    background-color: #ffffff;
+    border-color: #f18e3f;
+    box-shadow: 0 0 0 3px rgba(241, 142, 63, 0.1) !important;
+  }
+
+  /* Estilo para campos trancados (Readonly) */
+  .locked-input {
+    background-color: #f3efe9 !important; 
+    color: #8c8c8c !important; 
+    border: 1px solid #eadecc;
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+    cursor: not-allowed; 
+  }
+  .locked-input:focus {
+    outline: none;
+    box-shadow: none !important; 
+  }
+</style>
