@@ -24,6 +24,7 @@ router.post("/stock/product/:id/edit", adminController.editStock)
 router.get("/users", adminController.viewUsersData)
 router.get("/users/edit/:id", adminController.viewUserEdit)
 router.post("/users/edit/", adminController.editUser)
+router.post("/users/delete/:id", adminController.deleteUser )
 
 
 

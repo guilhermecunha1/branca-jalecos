@@ -324,6 +324,22 @@ async function editUser(req, res) {
 }
 
 
+async function deleteUser(req, res) {
+    try{
+        await User.findByIdAndDelete(req.params.id)
+        addFlash(req, "alert-success", "Usuario excluido com sucesso!")
+        res.redirect("/admin/users")
+
+
+
+    }
+    catch(err){
+        addFlash(req, "alert-danger", "Erro ao excluir usuario !")
+        res.redirect('/admin/users')
+    }
+}
+
+
 
 
 
@@ -342,5 +358,6 @@ module.exports = {
     editStock,
     viewUsersData,
     viewUserEdit,
-    editUser
+    editUser,
+    deleteUser,
 }
