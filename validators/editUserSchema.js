@@ -12,6 +12,9 @@ const editUserSchema = z.object({
         .trim()
         .email("E-mail invalido !")
         .toLowerCase(),
+
+        active: z.boolean()
+        
 })
 
 module.exports = {editUserSchema}

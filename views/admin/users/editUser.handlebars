@@ -48,6 +48,22 @@
             </select>
           </div>
 
+          <!-- Status da Conta (Active) -->
+          <div class="mb-5 border p-3 rounded-1" style="background-color: #faf8f5; border-color: #eadecc !important;">
+            <label class="form-label text-uppercase small fw-semibold text-secondary d-block mb-3" style="letter-spacing: 1px;">Status do Usuário</label>
+            
+            <div class="form-check form-switch d-flex align-items-center ps-0 m-0">
+              <!-- O hidden garante que "false" seja enviado se o botão estiver desligado -->
+              <input type="hidden" name="active" value="false">
+              
+              <input class="form-check-input switch-premium m-0" type="checkbox" role="switch" id="active" name="active" value="true" {{#if user.active}}checked{{/if}}>
+              
+              <label class="form-check-label fw-medium ms-3" for="active" style="cursor: pointer; color: #2c2c2c;">
+                Conta Ativa <span class="text-secondary fw-normal small d-block">Permite que o usuário faça login e acesse o sistema.</span>
+              </label>
+            </div>
+          </div>
+
           <!-- Botões -->
           <div class="d-flex flex-column flex-md-row gap-3 pt-4 border-top" style="border-color: #eadecc !important;">
             <button type="submit" class="btn btn-premium px-5 py-3 text-center">SALVAR ALTERAÇÕES</button>

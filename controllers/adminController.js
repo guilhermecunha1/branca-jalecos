@@ -273,7 +273,7 @@ async function editStock(req, res, ) {
 async function viewUsersData(req, res) {
     try{
 
-    const users = await User.find().lean().sort({createdAt: -1, active: -1})
+    const users = await User.find().lean().sort({role: 1, active: -1})
 
     res.render("admin/users/indexUsers", {users})
 
@@ -295,6 +295,8 @@ async function viewUserEdit(req, res) {
 
 async function editUser(req, res) {
         const {id, ...data} = req.body
+
+        data.active = data.active === "true" //Transforma a string em boolean para passar pelo parse
    
     try{
 
