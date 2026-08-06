@@ -18,7 +18,6 @@ const PORT = process.env.PORT || 1476
 
 //Utils
     const flashMessages = require("./middlewares/flash")
-    const { nextTick } = require('process')
 
 
 

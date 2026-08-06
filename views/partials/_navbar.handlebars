@@ -23,10 +23,10 @@
             <a class="nav-link nav-link-editorial {{activePage currentPage 'home'}}" href="/">Início</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-editorial {{activePage currentPage 'collection'}}" href="/produtos">Coleções</a>
+            <a class="nav-link nav-link-editorial {{activePage currentPage 'collection'}}" href="/products">Coleções</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-editorial {{activePage currentPage 'about'}}" href="/sobre">Nossa História</a>
+            <a class="nav-link nav-link-editorial {{activePage currentPage 'about'}}" href="/about">Nossa História</a>
           </li>
           {{#if isAdmin}}
           <li class="nav-item">
@@ -38,9 +38,12 @@
         <!-- Botões de Ação Padronizados em Altura -->
         {{#if user}}
           <div class="d-flex align-items-center justify-content-lg-end pt-2 pt-lg-0">
-            <a href="/users/logout" class="btn btn-nav-outline w-100 w-lg-auto text-center">DESCONECTAR</a>
+             <a href="#" id="logoutButton" class="btn btn-nav-outline w-100 w-lg-auto text-center">
+            DESCONECTAR
+            </a>
           </div>
         {{else}}
+        
           <div class="d-flex flex-column flex-lg-row align-items-lg-center gap-2 gap-lg-3 pt-2 pt-lg-0">
             <a href="/users/login" class="btn btn-nav-outline w-100 w-lg-auto text-center">
               <i class="bi bi-lock me-1" style="font-size: 1rem;"></i> Entrar
