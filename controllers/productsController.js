@@ -7,3 +7,34 @@ const Product = mongoose.model("products")
 //Utils:
 const addFlash = require("../utils/addFlash")
 
+
+async function indexCollection (req, res) {
+    try{
+
+        const products = await Product.find().lean().sort({createdAt: -1})
+        res.render("products/index", {products, currentPage: 'collection'})
+
+    }catch(err){
+        addFlash(req, "Erro ao acessar pagina de produtos!")
+        res.redirect("/")
+    }
+
+}
+
+async function showProduct(req, res) {
+    
+    try{
+
+    const product = await Product.findById(req.params.id).lean()
+    res.render("products/showProduct", {product})
+    }
+    catch(err){
+        addFlash(req, "Erro ao acessar produto, tente novamente mais tarde.")
+        res.redirect("/products")
+    }
+}
+
+module.exports = {
+    indexCollection,
+    showProduct,
+}
