@@ -11,7 +11,7 @@ const addFlash = require("../utils/addFlash")
 async function indexCollection (req, res) {
     try{
 
-        const products = await Product.find().lean().sort({createdAt: -1})
+        const products = await Product.find().lean().sort({active: -1, createdAt: -1})
         res.render("products/index", {products, currentPage: 'collection'})
 
     }catch(err){
@@ -25,7 +25,7 @@ async function showProduct(req, res) {
     
     try{
 
-    const product = await Product.findById(req.params.id).lean()
+    const product = await Product.findOne({slug: req.params.slug}).lean()
     res.render("products/showProduct", {product})
     }
     catch(err){
