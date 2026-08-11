@@ -23,7 +23,16 @@ module.exports = function(passport){
         }
 
         const match = await bcrypt.compare(password, user.password)
-        if(!match){return done(null, false, {message: "Senha incorreta."})}
+        
+        if(!match){
+            return done(null, false, {message: "Senha incorreta."})
+        }
+
+        if(!user.active){
+            return done(null, false)
+            
+        }
+        
         return done(null, user)
         
 
