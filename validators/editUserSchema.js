@@ -13,7 +13,9 @@ const editUserSchema = z.object({
         .email("E-mail invalido !")
         .toLowerCase(),
 
-        active: z.boolean()
+        active: z.boolean(),
+
+        role: z.enum(["admin", 'employee', 'user'])
         
 })
 

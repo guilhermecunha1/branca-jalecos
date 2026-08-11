@@ -296,13 +296,16 @@ async function viewUserEdit(req, res) {
 async function editUser(req, res) {
         const {id, ...data} = req.body
 
-        data.active = data.active === "true" //Transforma a string em boolean para passar pelo parse
+        data.active = Array.isArray(data.active)
+            ? data.active.includes("true")
+            : data.active === "true"
+
    
     try{
 
-        editUserSchema.parse(data)
+        const validatedData = editUserSchema.parse(data)
 
-        await User.findByIdAndUpdate(id, data)
+        await User.findByIdAndUpdate(id, validatedData)
 
         addFlash(req, "alert-success", "Usuario modificado com sucesso")
         res.redirect("/admin/users")
