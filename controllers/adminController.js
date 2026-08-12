@@ -11,6 +11,7 @@ const {ZodError} = require("zod")
     const {productSchema} = require("../validators/productSchema")
     const {editProductSchema} = require("../validators/editProductSchema")
     const {editUserSchema} = require("../validators/editUserSchema")
+    const {editStockSchema} = require('../validators/editStockSchema')
 
 //Utils:
     const addFlash = require("../utils/addFlash")
@@ -244,18 +245,61 @@ async function editStockView(req, res) {
 async function editStock(req, res, ) {
 
     try{
-        const {stocks, variationIds} = req.body
+
         const product = await Product.findById(req.params.id)
+        
+        if(!product) {
+            throw new Error("Produto não encontrado") //!!
+        }
+
+        // Garantir que são arrays (quando há 1 variação, Express envia string)
+        let {stocks, variationIds} = req.body
+        
+        if (!Array.isArray(stocks)) { //transforma em array
+            stocks = [stocks]
+        }
+        if (!Array.isArray(variationIds)) { //transforma em array
+            variationIds = [variationIds]
+        }
+
+        // o req.body recebe novos nomes depois de ja verificados
+        const {stocks: validatedStocks, variationIds: validatedIds} = editStockSchema.parse({stocks, variationIds})
+ 
+
+
+        //Verifica se o tamanhos dos arrays sao iguais
+        if(validatedIds.length !== validatedStocks.length || validatedIds.length !== product.variations.length ){
+
+            addFlash(req, "alert-danger", "Erro ao acessar dados, tente novamente mais tarde")
+            return res.render('admin/stock/edit', {product})
+
+
+        }
+
+        for(const id of validatedIds){
+
+            const exists = product.variations.some(variation => variation._id.toString() === id)
+            //Percorre todas variações do produto 
+            //e verifica se alguma tem o id igual a das variações enviadas
+
+            if(!exists){
+                addFlash(req, "alert-danger", "Erro no envio de Ids, tente novamente mais tarde.")
+                return res.redirect('/admin/stock')
+            }
+
+
+        }
 
         
         for(const variation of product.variations){
 
             
-            const index  = variationIds.indexOf(variation._id.toString())
+            const index  = validatedIds.indexOf(variation._id.toString()) 
             
             //Se a variação existir
+
             if(index !== -1) {
-                variation.stock = Number(stocks[index])
+                variation.stock = Number(validatedStocks[index])
             }
         }
         await product.save()
@@ -264,9 +308,17 @@ async function editStock(req, res, ) {
         res.redirect("/admin/stock")
         
     }catch(error){
-        addFlash(req, "alert-danger", "Erro ao modificar estoque")
-        res.redirect("/admin/stock")
 
+        if(error instanceof ZodError){
+            const erros = formatZodErrors(error)
+            return res.render('admin/stock/edit', {
+                product,
+                erros
+            })
+        }
+
+        addFlash(req, "alert-danger", "Erro ao verificar produto, tente novamente")
+        res.redirect("/admin/stock")
     }
 }
 
