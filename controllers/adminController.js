@@ -64,7 +64,7 @@ function mergeVariations(oldVariations = [], colors = [], sizes = []) {
 
 
 
-async function loadProducts(req, res) {
+async function loadProducts() {
     return Product.find().lean().sort({active: -1, createdAt: -1})
 }
 
@@ -402,6 +402,7 @@ async function deleteUser(req, res) {
 
 
 module.exports = {
+    mergeVariations,
     home,
     manageProducts,
     showNewProductForm,
