@@ -9,7 +9,7 @@ const session = require("express-session")
 const passport = require("passport")
 require("./config/auth")(passport)
 
-const PORT = process.env.PORT || 1476
+
 
 //Routes Connection
     const indexRoutes = require("./routes/indexRoutes")
@@ -80,6 +80,4 @@ const PORT = process.env.PORT || 1476
 
 
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
+module.exports = app
