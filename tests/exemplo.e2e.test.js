@@ -32,7 +32,6 @@ describe("Admin E2E", () => {
 
         const agent = request.agent(app)
 
-        // 1. Faz login
         const loginResponse = await agent
             .post("/users/login")
             .send({
