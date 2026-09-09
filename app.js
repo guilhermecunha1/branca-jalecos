@@ -16,6 +16,7 @@ require("./config/auth")(passport)
     const adminRoutes = require("./routes/adminRoutes")
     const userRoutes = require('./routes/userRoutes')
     const productsRoutes = require("./routes/productsRoutes")
+    const cartRoutes = require("./routes/cartRoutes")
 
 //Utils
     const flashMessages = require("./middlewares/flash")
@@ -73,6 +74,7 @@ require("./config/auth")(passport)
     app.use('/admin', adminRoutes)
     app.use('/users', userRoutes)
     app.use("/products", productsRoutes)
+    app.use("/cart", cartRoutes)
 
 
 
