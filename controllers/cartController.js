@@ -43,7 +43,6 @@ async function addProduct(req, res) {
 
     if(variation.stock < Number(data.quantity) + currentQuantity ){
         addFlash(req, "alert-danger", 'Não há estoque disponivel para a sua demanda, Tente novamente mais tarde')
-        console.log('Quantidade indisponivel pros guri')
         return res.redirect('/products')
     }
 

@@ -239,42 +239,128 @@ body {
   transform: translateY(-2px);
 }
 
-/* Alertas Minimalistas */
-.minimal-alert-container {
-  width: 100%; 
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
-  display: block;
+/* Mensagens e validações */
+.flash-message-container {
+  position: fixed;
+  top: 6.5rem;
+  right: 1.5rem;
+  z-index: 1050;
+  width: min(25rem, calc(100vw - 2rem));
 }
 
-#flash-msg, 
-.alert {
-  padding: 1.1rem 1.5rem !important;
-  border-radius: 0px !important; 
-  font-size: 0.9rem;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  border: none !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-  border-left: 4px solid transparent !important;
+.flash-message {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 0.75rem;
+  padding: 1rem 0.9rem 1rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  border-left-width: 4px;
+  box-shadow: 0 14px 35px rgba(44, 44, 44, 0.14);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  animation: notification-enter 0.35s ease-out both;
 }
 
-#flash-msg[class*="success"], .alert-success {
-  background-color: #f1f9f4 !important;
-  color: #11603a !important;
-  border-left-color: #198754 !important;
+.flash-message__icon,
+.form-errors__icon {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.8rem;
 }
 
-#flash-msg[class*="danger"], #flash-msg[class*="error"], .alert-danger {
-  background-color: #fff3f3 !important;
-  color: #a9212b !important;
-  border-left-color: #dc3545 !important;
+.flash-message__text { margin: 0; padding-top: 0.05rem; }
+
+.flash-message__close {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: -0.2rem -0.2rem 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: currentColor;
+  font-size: 1.4rem;
+  line-height: 1;
+  opacity: 0.65;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
-#flash-msg[class*="warning"], .alert-warning {
-  background-color: #fff9f1 !important;
-  color: #855d03 !important;
-  border-left-color: #f18e3f !important;
+.flash-message__close:hover,
+.flash-message__close:focus-visible {
+  background-color: rgba(0, 0, 0, 0.08);
+  opacity: 1;
+  outline: none;
+}
+
+.flash-message.alert-success {
+  background-color: #f1f9f4;
+  border-color: #ccebd9;
+  border-left-color: #198754;
+  color: #11603a;
+}
+
+.flash-message.alert-danger,
+.flash-message.alert-error {
+  background-color: #fff3f3;
+  border-color: #f5d1d4;
+  border-left-color: #dc3545;
+  color: #a9212b;
+}
+
+.flash-message.alert-warning {
+  background-color: #fff9f1;
+  border-color: #f3dfb8;
+  border-left-color: #f18e3f;
+  color: #855d03;
+}
+
+.flash-message.alert-success .flash-message__icon { background: #198754; color: #fff; }
+.flash-message.alert-danger .flash-message__icon,
+.flash-message.alert-error .flash-message__icon { background: #dc3545; color: #fff; }
+.flash-message.alert-warning .flash-message__icon { background: #f18e3f; color: #fff; }
+
+.form-errors {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  width: 100%;
+  margin: 0.5rem 0 1.5rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid #f5d1d4;
+  border-left: 4px solid #dc3545;
+  border-radius: 0.5rem;
+  background-color: #fff7f7;
+  color: #8f2029;
+  box-shadow: 0 8px 22px rgba(169, 33, 43, 0.08);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.form-errors__icon { background: #dc3545; color: #fff; }
+.error-title { display: block; font-weight: 700; }
+.error-list { margin: 0.35rem 0 0; padding-left: 1.1rem; }
+.error-list li + li { margin-top: 0.2rem; }
+
+.flash-message.is-leaving { animation: notification-leave 0.25s ease-in forwards; }
+
+@keyframes notification-enter {
+  from { opacity: 0; transform: translateX(1rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes notification-leave {
+  to { opacity: 0; transform: translateX(1rem); }
+}
+
+@media (max-width: 575.98px) {
+  .flash-message-container { top: 5.5rem; right: 1rem; }
 }
 
 /* ==========================================================================

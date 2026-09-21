@@ -1,7 +1,9 @@
 {{#if flash}}
-<div class="minimal-alert-container animate-fade-in-up" style="animation-delay: 0.1s;">
-  <div id="flash-msg" class="alert-{{flash.type}}">
-    {{flash.msg}}
+<div class="flash-message-container" data-flash-message role="alert" aria-live="assertive">
+  <div id="flash-msg" class="flash-message {{flash.type}}">
+    <span class="flash-message__icon" aria-hidden="true">!</span>
+    <p class="flash-message__text">{{flash.msg}}</p>
+    <button class="flash-message__close" type="button" aria-label="Fechar mensagem" data-dismiss-flash>&times;</button>
   </div>
 </div>
 {{/if}}

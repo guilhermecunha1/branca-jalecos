@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-  // Seleciona tanto a mensagem flash quanto o quadro de erros
-  const alertas = document.querySelectorAll('#flash-msg, .alert.alert-danger');
+  // Mantém apenas a mensagem flash temporária na tela por alguns segundos.
+  const alertas = document.querySelectorAll('[data-flash-message]');
   
   if (alertas.length > 0) {
     // Define o tempo que a mensagem ficará na tela (5000 = 5 segundos)
@@ -50,6 +50,18 @@ document.addEventListener("DOMContentLoaded", function() {
           alerta.remove();
         }, 600);
       });
-    }, 5000); 
+    }, 6000);
   }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll('[data-dismiss-flash]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const flashMessage = button.closest('[data-flash-message]');
+      const notification = flashMessage.querySelector('.flash-message');
+
+      notification.classList.add('is-leaving');
+      window.setTimeout(() => flashMessage.remove(), 250);
+    });
+  });
 });

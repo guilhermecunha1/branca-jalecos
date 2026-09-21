@@ -1,6 +1,7 @@
 {{#if erros}}
-<div class="minimal-alert-container animate-fade-in-up" style="animation-delay: 0.1s;">
-  <div class="alert alert-danger">
+<div class="form-errors animate-fade-in-up" role="alert" aria-live="assertive" style="animation-delay: 0.1s;">
+  <div class="form-errors__icon" aria-hidden="true">!</div>
+  <div>
     <span class="error-title">Ajustes necessários:</span>
     <ul class="error-list">
       {{#each erros}}
