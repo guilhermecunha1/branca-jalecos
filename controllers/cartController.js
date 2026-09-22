@@ -14,13 +14,31 @@ const formatZodErrors = require("../utils/formatZodErrors")
 //Controllers
 
 async function accessCart(req, res) {
-    
-    const cart = req.user.cart
-    
-    if(!cart){
-        addFlash(req, "aalert-danger", 'Erro ao acessar carrinho, tente novamente mais tarde.')
-        return res.redirect('/')
+    try{
+    const cartProducts = []
+    for(const item of req.user.cart){
+
+        const product = await Product.findById(item.productId)
+        if(!product){continue}
+        const variation = product.variations.id(item.variationId)
+        if(!variation){continue}
+
+        cartProducts.push({
+            product,
+            variation,
+            quantity: item.quantity
+        })
+        
     }
+
+    res.render('cart/index', {cartProducts})
+    } 
+    catch(err){
+        addFlash(req, 'alert-danger', 'Erro ao carregar carrinho')
+        res.redirect('/')
+
+    }
+    
 }
 
 async function addProduct(req, res) { 
