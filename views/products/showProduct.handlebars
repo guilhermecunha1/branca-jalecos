@@ -1,6 +1,5 @@
 <div class="container py-4 py-lg-5">
   
-  <!-- Navegação / Breadcrumb -->
   <nav class="mb-4">
     <a href="/products" class="text-decoration-none text-secondary small fw-medium d-inline-flex align-items-center hover-orange transition-all">
       <i class="bi bi-arrow-left me-2"></i> Voltar para as Coleções
@@ -9,14 +8,11 @@
 
   <div class="row g-4 g-lg-5 align-items-start">
     
-    <!-- COLUNA DA ESQUERDA: Fotos / Placeholders -->
     <div class="col-lg-6">
       <div class="product-gallery-wrapper">
         
-        <!-- Imagem Principal (Proporção 3:4) -->
         <div class="main-product-img-placeholder position-relative d-flex align-items-center justify-content-center mb-3 border bg-white">
           
-          <!-- Badges sobre a foto -->
           <div class="position-absolute top-0 start-0 m-3 d-flex flex-column gap-2" style="z-index: 2;">
             <span class="badge text-uppercase fw-semibold gender-badge-pdp">
               {{product.gender}}
@@ -28,7 +24,6 @@
             {{/unless}}
           </div>
 
-          <!-- Destaque de Foto Em Breve -->
           <div class="text-center p-4">
             <i class="bi bi-bag-dash display-4 d-block mb-2 text-secondary opacity-50"></i>
             <span class="small text-uppercase fw-bold text-secondary d-block" style="letter-spacing: 1.5px; font-size: 0.75rem;">
@@ -39,7 +34,6 @@
 
         </div>
 
-        <!-- Miniaturas Placeholder (Para quando tiver mais fotos) -->
         <div class="row g-2">
           <div class="col-3">
             <div class="thumb-placeholder border bg-white d-flex align-items-center justify-content-center active-thumb">
@@ -61,22 +55,18 @@
       </div>
     </div>
 
-    <!-- COLUNA DA DIREITA: Informações e Formulário de Compra -->
     <div class="col-lg-6">
       <div class="ps-lg-3">
         
-        <!-- Título e Código -->
         <p class="text-uppercase small fw-bold m-0 mb-1" style="color: #f18e3f; letter-spacing: 2px;">Branca Jalecos</p>
         <h1 class="fw-light text-dark mb-2 display-6">{{product.name}}</h1>
         <p class="table-product-slug mb-3">REF: {{product.slug}}</p>
 
-        <!-- Preço -->
         <div class="d-flex align-items-baseline gap-2 mb-4 pb-3 border-bottom" style="border-color: #eadecc !important;">
           <span class="fs-2 fw-bold text-dark">R$ {{product.basePrice}}</span>
           <span class="text-secondary small">em até 6x sem juros</span>
         </div>
 
-        <!-- Descrição Completa -->
         <div class="mb-4">
           <h2 class="h6 text-uppercase fw-semibold text-secondary mb-2" style="letter-spacing: 1px;">Descrição do Modelo</h2>
           <p class="text-secondary leading-relaxed" style="font-size: 0.95rem; line-height: 1.7;">
@@ -84,11 +74,9 @@
           </p>
         </div>
 
-        <!-- FORMULÁRIO DE COMPRA / ADICIONAR AO CARRINHO -->
         <form action="/cart/add" method="POST">
           <input type="hidden" name="productId" value="{{product._id}}">
 
-          <!-- Seleção de Cores -->
           {{#if product.colors.length}}
           <div class="mb-4">
             <label class="form-label text-uppercase small fw-semibold text-secondary d-block mb-2" style="letter-spacing: 1px;">
@@ -103,14 +91,12 @@
           </div>
           {{/if}}
 
-          <!-- Seleção de Tamanhos -->
           {{#if product.sizes.length}}
           <div class="mb-4">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <label class="form-label text-uppercase small fw-semibold text-secondary m-0" style="letter-spacing: 1px;">
                 Tamanho
               </label>
-              <!-- Link auxiliar opcional -->
               <a href="#tabela-tamanhos" class="text-decoration-none text-secondary small" style="font-size: 0.8rem;" data-bs-toggle="modal" data-bs-target="#modalGuiaTamanhos">
                 <i class="bi bi-ruler me-1"></i> Guia de Medidas
               </a>
@@ -125,7 +111,6 @@
           </div>
           {{/if}}
 
-          <!-- Quantidade e Botão de Ação -->
           <div class="row g-3 align-items-end pt-3 border-top" style="border-color: #eadecc !important;">
             
             <div class="col-4 col-sm-3">
@@ -150,7 +135,6 @@
 
         </form>
 
-        <!-- Garantias e Vantagens (Estilo Editorial) -->
         <div class="mt-5 pt-4 border-top d-flex flex-column gap-3" style="border-color: #f0f0f0 !important;">
           <div class="d-flex align-items-center gap-3">
             <i class="bi bi-truck fs-4 text-dark"></i>
@@ -174,9 +158,7 @@
   </div>
 </div>
 
-<!-- Estilos específicos da página de detalhes do produto -->
 <style>
-  /* Imagem Principal 3:4 */
   .main-product-img-placeholder {
     width: 100%;
     aspect-ratio: 3 / 4;
@@ -193,7 +175,6 @@
     padding: 6px 12px;
   }
 
-  /* Miniaturas de foto */
   .thumb-placeholder {
     aspect-ratio: 1 / 1;
     cursor: pointer;
@@ -205,7 +186,6 @@
     border-color: #f18e3f !important;
   }
 
-  /* Botoes de Selecao de Cor (Pills) */
   .btn-option-pill {
     background-color: #ffffff;
     border: 1px solid #eadecc;
@@ -222,7 +202,6 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   }
 
-  /* Botoes de Selecao de Tamanho (Tiles Quadrados) */
   .btn-option-tile {
     min-width: 48px;
     height: 44px;
@@ -249,7 +228,6 @@
     border-color: #f18e3f;
   }
 
-  /* Hover suave no link de voltar */
   .hover-orange:hover {
     color: #f18e3f !important;
   }

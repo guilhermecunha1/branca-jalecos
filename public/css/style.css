@@ -44,7 +44,7 @@ body {
 }
 
 .navbar-floating {
-  max-width: 1200px; /* Navbar mais larga para os botões não quebrarem */
+  max-width: 1200px;
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -59,15 +59,13 @@ body {
   padding-top: 100px;
 }
 
-/* Efeito do Fundo do Grupo de Links (Segmented Control) */
 .nav-menu-pill {
-  background-color: rgba(0, 0, 0, 0.03); /* Fundo cinza super sutil */
+  background-color: rgba(0, 0, 0, 0.03);
   padding: 4px;
   border-radius: 50px;
   border: 1px solid rgba(0, 0, 0, 0.02);
 }
 
-/* Links do Menu Flutuante */
 .nav-link-editorial {
   color: #555555 !important;
   font-size: 0.88rem;
@@ -81,7 +79,6 @@ body {
   color: #1a1a1a !important;
 }
 
-/* Link Selecionado (Fundo Branco com sombra) */
 .nav-link-editorial.active {
   background-color: #ffffff;
   color: #1a1a1a !important;
@@ -89,14 +86,13 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-/* Botões do Menu Flutuante (Altura Padronizada e Alinhamento) */
 .btn-nav-outline,
 .btn-nav-solid {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 44px; /* Trava a altura para ficarem exatamente iguais */
-  white-space: nowrap; /* Impede o texto de pular para baixo */
+  height: 44px;
+  white-space: nowrap;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.8px;
@@ -107,7 +103,6 @@ body {
   text-transform: uppercase;
 }
 
-/* Botão Entrar (Sem borda ou borda sutil) */
 .btn-nav-outline {
   border: 1px solid #eadecc;
   background-color: transparent;
@@ -119,7 +114,6 @@ body {
   background-color: rgba(0, 0, 0, 0.02);
 }
 
-/* Botão Criar Conta (Preto Inter Style) */
 .btn-nav-solid {
   background-color: #1a1a1a;
   border: 1px solid #1a1a1a;
@@ -134,7 +128,6 @@ body {
   transform: translateY(-1px);
 }
 
-/* Ajustes Responsivos para Navbar Mobile */
 @media (max-width: 991.98px) {
   .navbar-floating {
     border-radius: 20px;
@@ -154,7 +147,6 @@ body {
   }
 }
 
-/* Link Customizado Clássico (Para uso no rodapé ou links gerais) */
 .nav-link-custom {
   color: #5a5a5a;
   font-weight: 500;
@@ -185,7 +177,6 @@ body {
    3. COMPONENTES GLOBAIS (BOTÕES GERAIS, CARDS, ALERTAS)
    ========================================================================== */
 
-/* Efeito de Elevação nos Cards */
 .img-editorial-wrapper {
   overflow: hidden;
   border: 1px solid #eadecc;
@@ -199,7 +190,6 @@ body {
   box-shadow: 0 20px 40px rgba(241, 142, 63, 0.05);
 }
 
-/* Botões Premium (Estilo Laranja Geral do Site - Mantido!) */
 .btn-premium, 
 .btn-premium-outline {
   font-weight: 600;
@@ -239,7 +229,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* Mensagens e validações */
 .flash-message-container {
   position: fixed;
   top: 6.5rem;
@@ -588,7 +577,6 @@ body {
 }
 
 
-/* Área dos botões */
 
 .logout-buttons {
 
@@ -601,7 +589,6 @@ body {
 }
 
 
-/* Botões seguem a identidade da navbar */
 
 .logout-btn-cancel,
 .logout-btn-confirm {
@@ -637,7 +624,6 @@ body {
 
 
 
-/* Cancelar */
 
 .logout-btn-cancel {
 
@@ -660,7 +646,6 @@ body {
 
 
 
-/* Confirmar saída */
 
 .logout-btn-confirm {
 
@@ -685,7 +670,6 @@ body {
 
 
 
-/* Mobile */
 
 @media(max-width:500px){
 
@@ -710,4 +694,59 @@ body {
 
     }
 
+}
+
+.user-menu { position: relative; }
+.user-menu-toggle { gap: 0.5rem; }
+.user-menu-chevron { font-size: 0.7rem; transition: transform 0.2s ease; }
+.user-menu-toggle[aria-expanded="true"] .user-menu-chevron { transform: rotate(180deg); }
+.user-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  min-width: 190px;
+  padding: 0.4rem;
+  border: 1px solid #eadecc;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+}
+.user-menu-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.7rem;
+  padding: 0.75rem 0.85rem;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #2c2c2c;
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.user-menu-item:hover, .user-menu-item:focus-visible { background: #faf8f5; color: #1a1a1a; outline: none; }
+.user-menu-logout { color: #9f2f2f; }
+
+.logout-overlay { visibility: visible; transition: opacity .25s ease; }
+.logout-confirm-box {
+  top: 50%;
+  transform: translate(-50%, -45%);
+  width: min(380px, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.logout-confirm-box.show { top: 50%; opacity: 1; transform: translate(-50%, -50%); }
+
+@media (max-width: 991.98px) {
+  .user-menu-dropdown {
+    position: static;
+    width: 100%;
+    margin-top: 0.5rem;
+    box-shadow: none;
+  }
 }

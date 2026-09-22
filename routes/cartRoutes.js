@@ -5,6 +5,7 @@ const { isAuthenticated } = require('../middlewares/auth')
 
 router.use(isAuthenticated)
 
+router.get('/', cartController.accessCart )
 router.post('/add', cartController.addProduct)
 
 module.exports = router

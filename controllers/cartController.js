@@ -13,6 +13,16 @@ const formatZodErrors = require("../utils/formatZodErrors")
 
 //Controllers
 
+async function accessCart(req, res) {
+    
+    const cart = req.user.cart
+    
+    if(!cart){
+        addFlash(req, "aalert-danger", 'Erro ao acessar carrinho, tente novamente mais tarde.')
+        return res.redirect('/')
+    }
+}
+
 async function addProduct(req, res) { 
     const {...data} = req.body
 
@@ -68,5 +78,6 @@ async function addProduct(req, res) {
 
 module.exports = {
     addProduct,
+    accessCart,
 
 }
