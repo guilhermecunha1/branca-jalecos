@@ -29,7 +29,7 @@ async function accessCart(req, res) {
             variation,
             quantity: item.quantity
         })
-        
+
     }
 
     res.render('cart/index', {cartProducts})
@@ -97,9 +97,29 @@ async function addProduct(req, res) {
 
 async function removeProducts(req, res) {
 
+    const {productId, variationId} = req.body
 
-    
+    const index = req.user.cart.findIndex(item => 
+        item.variationId.toString() === variationId &&
+        item.productId.toString() === productId
+    )
 
+    if(index === -1){
+        addFlash(req, "alert-danger", "Erro ao encontrar produto, tente novamente.")
+        return res.redirect("/")
+    }
+
+    req.user.cart.splice(index, 1)
+
+    await req.user.save()
+
+    addFlash(req, "alert-success", "Produto removido do seu carrinho.")
+
+    res.redirect('/cart')
+
+
+
+    //remover voltando pro carrinho
 }
 
 module.exports = {
