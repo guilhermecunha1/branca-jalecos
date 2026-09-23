@@ -1,1 +1,61 @@
-<h1>Olá, mundo!</h1>
+<main class="container py-4 py-lg-5 cart-page">
+  {{> _errors}}
+  {{> _flashMsg}}
+  <nav class="mb-4" aria-label="Navegação estrutural"><a href="/products" class="cart-back-link"><i class="bi bi-arrow-left" aria-hidden="true"></i> Continuar comprando</a></nav>
+
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-4 mb-lg-5">
+    <div><p class="cart-eyebrow">Branca Jalecos</p><h1 class="display-6 fw-light mb-1">Meu carrinho</h1><p class="text-secondary mb-0">Revise os modelos escolhidos antes de finalizar seu pedido.</p></div>
+    <span class="cart-items-count"><i class="bi bi-bag me-2" aria-hidden="true"></i>{{cartProducts.length}} item(ns)</span>
+  </div>
+
+  {{#if cartProducts.length}}
+    <div class="row g-4 g-xl-5 align-items-start">
+      <section class="col-xl-8" aria-label="Itens do carrinho"><div class="cart-items-panel">
+        {{#each cartProducts}}
+          {{!-- Backend futuro: POST /cart/update e /cart/remove recebem productId, variationId e quantity. --}}
+          <article class="cart-item" data-cart-item>
+            <div class="cart-product-image" aria-hidden="true"><i class="bi bi-bag-heart"></i><span>Foto em breve</span></div>
+            <div class="cart-item-content">
+              <div class="d-flex flex-column flex-sm-row justify-content-between gap-2">
+                <div><p class="cart-item-brand">Branca Jalecos</p><h2 class="h5 fw-semibold mb-1">{{product.name}}</h2><p class="table-product-slug mb-0">REF: {{product.slug}}</p></div>
+                <p class="cart-item-unit-price mb-0">R$ {{product.basePrice}}</p>
+              </div>
+              <dl class="cart-variation-list mb-0"><div><dt>Cor</dt><dd>{{variation.color}}</dd></div><div><dt>Tamanho</dt><dd>{{variation.size}}</dd></div></dl>
+              <div class="cart-item-footer">
+                <form action="/cart/update" method="POST" class="cart-quantity-form">
+                  <input type="hidden" name="productId" value="{{product._id}}"><input type="hidden" name="variationId" value="{{variation._id}}">
+                  <label class="visually-hidden" for="quantity-{{variation._id}}">Quantidade de {{product.name}}</label>
+                  <div class="input-group cart-quantity-control"><span class="input-group-text">Qtd.</span><input id="quantity-{{variation._id}}" class="form-control text-center" type="number" name="quantity" value="{{quantity}}" min="1" max="{{variation.stock}}" data-quantity data-unit-price="{{product.basePrice}}"></div>
+                  <button type="submit" class="cart-update-button">Atualizar</button>
+                </form>
+                <div class="d-flex align-items-center gap-3">
+                  <form action="/cart/remove" method="POST"><input type="hidden" name="productId" value="{{product._id}}"><input type="hidden" name="variationId" value="{{variation._id}}"><button type="submit" class="cart-remove-button" aria-label="Remover {{product.name}} do carrinho"><i class="bi bi-trash3" aria-hidden="true"></i><span>Remover</span></button></form>
+                  <div class="text-end"><span class="cart-subtotal-label">Subtotal</span><strong class="cart-line-total" data-line-total>R$ {{product.basePrice}}</strong></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        {{/each}}
+      </div></section>
+      <aside class="col-xl-4" aria-label="Resumo do pedido"><div class="cart-summary-card">
+        <h2 class="h5 fw-semibold mb-4">Resumo do pedido</h2>
+        <div class="cart-summary-row"><span>Subtotal</span><strong data-cart-subtotal>R$ 0,00</strong></div>
+        <div class="cart-summary-row"><span>Frete</span><span class="text-secondary">Calculado no checkout</span></div>
+        <div class="cart-summary-total"><span>Total</span><strong data-cart-total>R$ 0,00</strong></div>
+        <p class="cart-summary-note"><i class="bi bi-shield-check" aria-hidden="true"></i> Compra segura e atendimento personalizado.</p>
+        <form action="/checkout" method="GET"><button class="btn btn-premium w-100 py-3" type="submit">IR PARA O PAGAMENTO <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i></button></form>
+        <a href="/products" class="cart-continue-link">Adicionar mais produtos</a>
+      </div></aside>
+    </div>
+  {{else}}
+    <section class="cart-empty-state text-center mx-auto"><div class="cart-empty-icon"><i class="bi bi-bag-x" aria-hidden="true"></i></div><p class="cart-eyebrow">Seu carrinho está vazio</p><h2 class="fw-light h2 mb-3">Vamos encontrar o jaleco ideal?</h2><p class="text-secondary mx-auto mb-4">Explore nossa coleção e selecione os modelos que combinam com a sua rotina profissional.</p><a class="btn btn-premium px-4 py-3" href="/products">VER COLEÇÕES <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i></a></section>
+  {{/if}}
+</main>
+
+<style>
+.cart-page{max-width:1200px}.cart-back-link,.cart-continue-link{color:#666;font-size:.86rem;font-weight:600;text-decoration:none}.cart-back-link{display:inline-flex;align-items:center;gap:.55rem}.cart-back-link:hover,.cart-continue-link:hover{color:#f18e3f}.cart-eyebrow,.cart-item-brand{margin:0 0 .3rem;color:#f18e3f;font-size:.7rem;font-weight:700;letter-spacing:1.7px;text-transform:uppercase}.cart-items-count{color:#555;font-size:.82rem;font-weight:600}.cart-items-panel,.cart-summary-card{border:1px solid #eadecc;background:#fff}.cart-item{display:grid;grid-template-columns:130px minmax(0,1fr);gap:1.4rem;padding:1.4rem}.cart-item+.cart-item{border-top:1px solid #eee6dc}.cart-product-image{display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:3/4;color:#8c8c8c;background:#f8f6f2;border:1px solid #eee3d6;font-size:.63rem;font-weight:700;letter-spacing:1px;text-transform:uppercase}.cart-product-image i{margin-bottom:.4rem;color:#b0aaa2;font-size:1.8rem}.cart-item-unit-price{color:#2c2c2c;font-size:1.05rem;font-weight:700;white-space:nowrap}.cart-variation-list{display:flex;flex-wrap:wrap;gap:.65rem 1.5rem;margin-top:1.2rem}.cart-variation-list div{display:flex;align-items:baseline;gap:.4rem}.cart-variation-list dt{color:#898989;font-size:.7rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase}.cart-variation-list dd{margin:0;color:#363636;font-size:.86rem;font-weight:600}.cart-item-footer{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-top:1.4rem;padding-top:1rem;border-top:1px solid #f0ece7}.cart-quantity-form{display:flex;align-items:center;gap:.7rem}.cart-quantity-control{width:118px}.cart-quantity-control .input-group-text{background:#faf8f5;border-color:#eadecc;color:#777;font-size:.72rem}.cart-quantity-control .form-control{border-color:#eadecc;font-weight:700}.cart-update-button,.cart-remove-button{padding:0;border:0;background:transparent;font:inherit;font-size:.75rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}.cart-update-button{color:#555;text-decoration:underline;text-underline-offset:3px}.cart-update-button:hover{color:#f18e3f}.cart-remove-button{color:#a03b3b;display:inline-flex;align-items:center;gap:.35rem}.cart-remove-button:hover{color:#dc3545}.cart-subtotal-label{display:block;color:#898989;font-size:.65rem;font-weight:700;letter-spacing:.9px;text-transform:uppercase}.cart-line-total{display:block;color:#2c2c2c;font-size:1rem}.cart-summary-card{position:sticky;top:7.5rem;padding:1.6rem}.cart-summary-row,.cart-summary-total{display:flex;justify-content:space-between;gap:1rem;font-size:.9rem}.cart-summary-row{margin-bottom:1rem;color:#555}.cart-summary-total{align-items:baseline;margin:1.4rem 0 1.15rem;padding-top:1.2rem;border-top:1px solid #eadecc;color:#262626}.cart-summary-total strong{font-size:1.35rem}.cart-summary-note{display:flex;gap:.5rem;margin:0 0 1.4rem;color:#747474;font-size:.75rem;line-height:1.45}.cart-summary-note i{color:#198754}.cart-continue-link{display:block;margin-top:1.1rem;text-align:center}.cart-empty-state{max-width:590px;padding:3rem 1rem}.cart-empty-state>p:not(.cart-eyebrow){max-width:470px}.cart-empty-icon{display:inline-grid;place-items:center;width:76px;height:76px;margin-bottom:1.4rem;border:1px solid #eadecc;border-radius:50%;color:#f18e3f;font-size:2rem;background:#fff}@media(max-width:575.98px){.cart-item{grid-template-columns:86px minmax(0,1fr);gap:1rem;padding:1rem}.cart-item-footer{align-items:flex-start;flex-direction:column}.cart-item-footer>div{width:100%;justify-content:space-between}.cart-quantity-form{width:100%;justify-content:space-between}.cart-summary-card{position:static}}
+</style>
+
+<script>
+(() => {const money=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});const inputs=document.querySelectorAll('[data-quantity]');const updateTotals=()=>{let subtotal=0;inputs.forEach((input)=>{const total=(Number.parseFloat(input.dataset.unitPrice)||0)*(Number.parseInt(input.value,10)||0);subtotal+=total;input.closest('[data-cart-item]').querySelector('[data-line-total]').textContent=money.format(total)});document.querySelectorAll('[data-cart-subtotal], [data-cart-total]').forEach((element)=>element.textContent=money.format(subtotal))};inputs.forEach((input)=>input.addEventListener('input',updateTotals));updateTotals()})();
+</script>

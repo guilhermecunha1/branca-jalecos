@@ -7,5 +7,6 @@ router.use(isAuthenticated)
 
 router.get('/', cartController.accessCart )
 router.post('/add', cartController.addProduct)
+router.post('/remove', cartController.removeProducts)
 
 module.exports = router

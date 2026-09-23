@@ -18,10 +18,11 @@ async function accessCart(req, res) {
     const cartProducts = []
     for(const item of req.user.cart){
 
-        const product = await Product.findById(item.productId)
-        if(!product){continue}
-        const variation = product.variations.id(item.variationId)
-        if(!variation){continue}
+        const product = await Product.findById(item.productId).lean()
+        if(!product){continue} //Se nao achar, segue para o proximo item
+
+        const variation = product.variations.find(variation => variation._id.toString() === item.variationId.toString())
+        if(!variation){continue} //Se não achar, segue para o proximo item
 
         cartProducts.push({
             product,
@@ -94,8 +95,16 @@ async function addProduct(req, res) {
 
 }
 
+async function removeProducts(req, res) {
+
+
+    
+
+}
+
 module.exports = {
     addProduct,
     accessCart,
+    removeProducts,
 
 }
