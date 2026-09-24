@@ -13,7 +13,7 @@
       <section class="col-xl-8" aria-label="Itens do carrinho"><div class="cart-items-panel">
         {{#each cartProducts}}
           {{!-- Backend futuro: POST /cart/update e /cart/remove recebem productId, variationId e quantity. --}}
-          <article class="cart-item" data-cart-item>
+          <article class="cart-item" data-cart-item data-unit-price="{{product.basePrice}}">
             <div class="cart-product-image" aria-hidden="true"><i class="bi bi-bag-heart"></i><span>Foto em breve</span></div>
             <div class="cart-item-content">
               <div class="d-flex flex-column flex-sm-row justify-content-between gap-2">
@@ -21,13 +21,18 @@
                 <p class="cart-item-unit-price mb-0">R$ {{product.basePrice}}</p>
               </div>
               <dl class="cart-variation-list mb-0"><div><dt>Cor</dt><dd>{{variation.color}}</dd></div><div><dt>Tamanho</dt><dd>{{variation.size}}</dd></div></dl>
+
               <div class="cart-item-footer">
-                <form action="/cart/update" method="POST" class="cart-quantity-form">
-                  <input type="hidden" name="productId" value="{{product._id}}"><input type="hidden" name="variationId" value="{{variation._id}}">
-                  <label class="visually-hidden" for="quantity-{{variation._id}}">Quantidade de {{product.name}}</label>
-                  <div class="input-group cart-quantity-control"><span class="input-group-text">Qtd.</span><input id="quantity-{{variation._id}}" class="form-control text-center" type="number" name="quantity" value="{{quantity}}" min="1" max="{{variation.stock}}" data-quantity data-unit-price="{{product.basePrice}}"></div>
-                  <button type="submit" class="cart-update-button">Atualizar</button>
-                </form>
+                <div class="cart-quantity-form">
+                  <span class="cart-current-quantity">Qtd: <strong data-cart-quantity data-value="{{quantity}}">{{quantity}}</strong></span>
+                  <button type="button" class="cart-update-button" data-edit-cart-item data-product-id="{{product._id}}" data-variation-id="{{variation._id}}" data-color="{{variation.color}}" data-size="{{variation.size}}" data-product-name="{{product.name}}" data-quantity="{{quantity}}">Editar</button>
+                </div>
+                <div class="d-none" data-variation-options>
+                  {{#each product.variations}}
+                    <span data-variation-option data-id="{{_id}}" data-color="{{color}}" data-size="{{size}}" data-stock="{{stock}}"></span>
+                  {{/each}}
+                </div>
+
                 <div class="d-flex align-items-center gap-3">
                   <form action="/cart/remove" method="POST"><input type="hidden" name="productId" value="{{product._id}}"><input type="hidden" name="variationId" value="{{variation._id}}"><button type="submit" class="cart-remove-button" aria-label="Remover {{product.name}} do carrinho"><i class="bi bi-trash3" aria-hidden="true"></i><span>Remover</span></button></form>
                   <div class="text-end"><span class="cart-subtotal-label">Subtotal</span><strong class="cart-line-total" data-line-total>R$ {{product.basePrice}}</strong></div>
@@ -52,10 +57,140 @@
   {{/if}}
 </main>
 
+{{#if cartProducts.length}}
+<div class="modal fade" id="editCartItemModal" tabindex="-1" aria-labelledby="editCartItemModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content cart-edit-modal">
+      <form action="/cart/update" method="POST">
+        <div class="modal-header">
+          <div><p class="cart-eyebrow">Personalize seu pedido</p><h2 class="modal-title h5 fw-semibold mb-0" id="editCartItemModalLabel">Editar produto</h2></div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-secondary mb-3" data-edit-product-name></p>
+          <input type="hidden" name="productId" data-edit-product-id>
+          <input type="hidden" name="currentVariationId" data-edit-current-variation-id>
+          <input type="hidden" name="variationId" data-edit-variation-id>
+          <div class="cart-edit-fields">
+            <div><label class="form-label" for="edit-cart-color">Cor</label><select class="form-select" id="edit-cart-color" name="color" required></select></div>
+            <div><label class="form-label" for="edit-cart-size">Tamanho</label><select class="form-select" id="edit-cart-size" name="size" required></select></div>
+          </div>
+          <div class="cart-edit-stock" data-edit-stock-note></div>
+          <label class="form-label" for="edit-cart-quantity">Quantidade</label>
+          <div class="input-group cart-edit-quantity"><button class="btn" type="button" data-quantity-step="-1" aria-label="Diminuir quantidade">-</button><input class="form-control text-center" id="edit-cart-quantity" type="number" name="quantity" min="1" required><button class="btn" type="button" data-quantity-step="1" aria-label="Aumentar quantidade">+</button></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-premium">Salvar alterações</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{/if}}
+
 <style>
 .cart-page{max-width:1200px}.cart-back-link,.cart-continue-link{color:#666;font-size:.86rem;font-weight:600;text-decoration:none}.cart-back-link{display:inline-flex;align-items:center;gap:.55rem}.cart-back-link:hover,.cart-continue-link:hover{color:#f18e3f}.cart-eyebrow,.cart-item-brand{margin:0 0 .3rem;color:#f18e3f;font-size:.7rem;font-weight:700;letter-spacing:1.7px;text-transform:uppercase}.cart-items-count{color:#555;font-size:.82rem;font-weight:600}.cart-items-panel,.cart-summary-card{border:1px solid #eadecc;background:#fff}.cart-item{display:grid;grid-template-columns:130px minmax(0,1fr);gap:1.4rem;padding:1.4rem}.cart-item+.cart-item{border-top:1px solid #eee6dc}.cart-product-image{display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:3/4;color:#8c8c8c;background:#f8f6f2;border:1px solid #eee3d6;font-size:.63rem;font-weight:700;letter-spacing:1px;text-transform:uppercase}.cart-product-image i{margin-bottom:.4rem;color:#b0aaa2;font-size:1.8rem}.cart-item-unit-price{color:#2c2c2c;font-size:1.05rem;font-weight:700;white-space:nowrap}.cart-variation-list{display:flex;flex-wrap:wrap;gap:.65rem 1.5rem;margin-top:1.2rem}.cart-variation-list div{display:flex;align-items:baseline;gap:.4rem}.cart-variation-list dt{color:#898989;font-size:.7rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase}.cart-variation-list dd{margin:0;color:#363636;font-size:.86rem;font-weight:600}.cart-item-footer{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-top:1.4rem;padding-top:1rem;border-top:1px solid #f0ece7}.cart-quantity-form{display:flex;align-items:center;gap:.7rem}.cart-quantity-control{width:118px}.cart-quantity-control .input-group-text{background:#faf8f5;border-color:#eadecc;color:#777;font-size:.72rem}.cart-quantity-control .form-control{border-color:#eadecc;font-weight:700}.cart-update-button,.cart-remove-button{padding:0;border:0;background:transparent;font:inherit;font-size:.75rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase}.cart-update-button{color:#555;text-decoration:underline;text-underline-offset:3px}.cart-update-button:hover{color:#f18e3f}.cart-remove-button{color:#a03b3b;display:inline-flex;align-items:center;gap:.35rem}.cart-remove-button:hover{color:#dc3545}.cart-subtotal-label{display:block;color:#898989;font-size:.65rem;font-weight:700;letter-spacing:.9px;text-transform:uppercase}.cart-line-total{display:block;color:#2c2c2c;font-size:1rem}.cart-summary-card{position:sticky;top:7.5rem;padding:1.6rem}.cart-summary-row,.cart-summary-total{display:flex;justify-content:space-between;gap:1rem;font-size:.9rem}.cart-summary-row{margin-bottom:1rem;color:#555}.cart-summary-total{align-items:baseline;margin:1.4rem 0 1.15rem;padding-top:1.2rem;border-top:1px solid #eadecc;color:#262626}.cart-summary-total strong{font-size:1.35rem}.cart-summary-note{display:flex;gap:.5rem;margin:0 0 1.4rem;color:#747474;font-size:.75rem;line-height:1.45}.cart-summary-note i{color:#198754}.cart-continue-link{display:block;margin-top:1.1rem;text-align:center}.cart-empty-state{max-width:590px;padding:3rem 1rem}.cart-empty-state>p:not(.cart-eyebrow){max-width:470px}.cart-empty-icon{display:inline-grid;place-items:center;width:76px;height:76px;margin-bottom:1.4rem;border:1px solid #eadecc;border-radius:50%;color:#f18e3f;font-size:2rem;background:#fff}@media(max-width:575.98px){.cart-item{grid-template-columns:86px minmax(0,1fr);gap:1rem;padding:1rem}.cart-item-footer{align-items:flex-start;flex-direction:column}.cart-item-footer>div{width:100%;justify-content:space-between}.cart-quantity-form{width:100%;justify-content:space-between}.cart-summary-card{position:static}}
 </style>
 
+<style>
+.cart-edit-modal{border:1px solid #eadecc;border-radius:2px;box-shadow:0 24px 70px rgba(35,27,18,.2)}
+.cart-edit-modal .modal-header,.cart-edit-modal .modal-footer{padding:1.25rem 1.5rem;border-color:#f0e8dc}
+.cart-edit-modal .modal-body{padding:1.5rem}
+.cart-edit-modal .form-label{margin-bottom:.45rem;color:#4a4a4a;font-size:.76rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.cart-edit-modal .form-select,.cart-edit-modal .form-control{min-height:48px;border-color:#eadecc;border-radius:2px;background-color:#fdfcfb;color:#2c2c2c}
+.cart-edit-modal .form-select:focus,.cart-edit-modal .form-control:focus{border-color:#f18e3f;box-shadow:0 0 0 .2rem rgba(241,142,63,.14)}
+.cart-edit-fields{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.15rem}
+.cart-edit-stock{min-height:1.3rem;margin:-.45rem 0 1.1rem;color:#777;font-size:.78rem}
+.cart-edit-quantity{max-width:190px}
+.cart-edit-quantity .btn{min-width:46px;border-color:#eadecc;background:#faf8f5;color:#4a4a4a;font-size:1.1rem}
+.cart-edit-quantity .btn:hover{background:#f18e3f;color:#fff}
+.cart-edit-modal .modal-footer .btn{min-height:44px;padding-inline:1.2rem;border-radius:2px;font-size:.75rem;font-weight:700;letter-spacing:.7px;text-transform:uppercase}
+@media(max-width:575.98px){.cart-edit-fields{grid-template-columns:1fr}.cart-edit-modal .modal-header,.cart-edit-modal .modal-footer{padding:1rem}.cart-edit-modal .modal-body{padding:1rem}}
+</style>
+
 <script>
-(() => {const money=new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});const inputs=document.querySelectorAll('[data-quantity]');const updateTotals=()=>{let subtotal=0;inputs.forEach((input)=>{const total=(Number.parseFloat(input.dataset.unitPrice)||0)*(Number.parseInt(input.value,10)||0);subtotal+=total;input.closest('[data-cart-item]').querySelector('[data-line-total]').textContent=money.format(total)});document.querySelectorAll('[data-cart-subtotal], [data-cart-total]').forEach((element)=>element.textContent=money.format(subtotal))};inputs.forEach((input)=>input.addEventListener('input',updateTotals));updateTotals()})();
+(() => {
+  const money = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+  const updateTotals = () => {
+    let subtotal = 0;
+    document.querySelectorAll('[data-cart-item]').forEach((item) => {
+      const quantity = Number.parseInt(item.querySelector('[data-cart-quantity]').dataset.value, 10) || 0;
+      const total = (Number.parseFloat(item.dataset.unitPrice) || 0) * quantity;
+      subtotal += total;
+      item.querySelector('[data-line-total]').textContent = money.format(total);
+    });
+    document.querySelectorAll('[data-cart-subtotal], [data-cart-total]').forEach((element) => element.textContent = money.format(subtotal));
+  };
+  updateTotals();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalElement = document.getElementById('editCartItemModal');
+    if (!modalElement || !window.bootstrap) return;
+
+    const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+    const form = modalElement.querySelector('form');
+    const colorSelect = modalElement.querySelector('#edit-cart-color');
+    const sizeSelect = modalElement.querySelector('#edit-cart-size');
+    const quantityInput = modalElement.querySelector('#edit-cart-quantity');
+    const currentVariationIdInput = modalElement.querySelector('[data-edit-current-variation-id]');
+    const variationIdInput = modalElement.querySelector('[data-edit-variation-id]');
+    const stockNote = modalElement.querySelector('[data-edit-stock-note]');
+    let variations = [];
+
+    const syncVariation = () => {
+      const variation = variations.find((item) => item.color === colorSelect.value && item.size === sizeSelect.value);
+      if (!variation || Number(variation.stock) < 1) {
+        variationIdInput.value = '';
+        quantityInput.value = '';
+        quantityInput.max = '0';
+        stockNote.textContent = 'Esta combinação está indisponível no momento.';
+        form.querySelector('[type="submit"]').disabled = true;
+        return;
+      }
+
+      variationIdInput.value = variation.id;
+      quantityInput.max = variation.stock;
+      quantityInput.value = Math.min(Number(quantityInput.value) || 1, Number(variation.stock));
+      stockNote.textContent = `${variation.stock} unidade(s) disponível(is)`;
+      form.querySelector('[type="submit"]').disabled = false;
+    };
+
+    document.querySelectorAll('[data-edit-cart-item]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const cartItem = button.closest('[data-cart-item]');
+        variations = [...cartItem.querySelectorAll('[data-variation-option]')].map((option) => ({
+          id: option.dataset.id,
+          color: option.dataset.color,
+          size: option.dataset.size,
+          stock: Number(option.dataset.stock)
+        }));
+
+        modalElement.querySelector('[data-edit-product-name]').textContent = button.dataset.productName;
+        modalElement.querySelector('[data-edit-product-id]').value = button.dataset.productId;
+        currentVariationIdInput.value = button.dataset.variationId;
+        colorSelect.replaceChildren(...[...new Set(variations.map((item) => item.color))].map((color) => new Option(color, color)));
+        sizeSelect.replaceChildren(...[...new Set(variations.map((item) => item.size))].map((size) => new Option(size, size)));
+        colorSelect.value = button.dataset.color;
+        sizeSelect.value = button.dataset.size;
+        quantityInput.value = button.dataset.quantity;
+        syncVariation();
+        modal.show();
+      });
+    });
+
+    colorSelect.addEventListener('change', syncVariation);
+    sizeSelect.addEventListener('change', syncVariation);
+    quantityInput.addEventListener('input', () => {
+      const max = Number(quantityInput.max);
+      if (max && Number(quantityInput.value) > max) quantityInput.value = max;
+    });
+    modalElement.querySelectorAll('[data-quantity-step]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const next = (Number(quantityInput.value) || 1) + Number(button.dataset.quantityStep);
+        quantityInput.value = Math.max(1, Math.min(next, Number(quantityInput.max) || 1));
+      });
+    });
+  });
+})();
 </script>

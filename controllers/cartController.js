@@ -10,6 +10,9 @@ const Product = mongoose.model("products")
 const addFlash = require("../utils/addFlash")
 const formatZodErrors = require("../utils/formatZodErrors")
 
+//Schema:
+const{editCartSchema} = require('../validators/editCartSchema')
+
 
 //Controllers
 
@@ -42,7 +45,7 @@ async function accessCart(req, res) {
     
 }
 
-async function addProduct(req, res) { 
+async function addProduct(req, res) {  //Adicionar zod futuramente
     const {...data} = req.body
 
     const product = await Product.findById(data.productId)
@@ -117,14 +120,92 @@ async function removeProducts(req, res) {
 
     res.redirect('/cart')
 
-
-
-    //remover voltando pro carrinho
 }
+
+
+async function updCartProduct(req, res) {
+
+    let valitadedData
+    try {
+        valitadedData = editCartSchema.parse(req.body)
+    } catch (err) {
+        if (err instanceof ZodError) {
+            addFlash(req, "alert-danger", "Dados inválidos para atualizar o produto.")
+            return res.redirect("/cart")
+        }
+        throw err
+    }
+
+
+    const productInCart = req.user.cart.find(item =>
+        valitadedData.currentVariationId === item.variationId.toString() &&
+        valitadedData.productId === item.productId.toString()
+    )
+
+    if(!productInCart){
+        addFlash(req, "alert-danger", "Erro ao procurar produto, tente novamente mais tarde.")
+        return res.redirect("/cart")
+    }
+
+    const product = await Product.findById(valitadedData.productId)
+
+    if(!product){
+        addFlash(req, "alert-danger", "Erro ao procurar produto, tente novamente mais tarde")
+        return res.redirect("/cart")
+    }
+
+    const variation = product.variations.find( item =>
+        item._id.toString() === valitadedData.variationId &&
+        item.color === valitadedData.color &&
+        item.size === valitadedData.size
+    )
+
+    if(!variation){
+        addFlash(req, "alert-danger", "Erro ao procurar produto, tente novamente mais tarde")
+        return res.redirect("/cart")
+    }
+
+    //Verificar o codigo abaixo daqui amanhã
+    const variationAlreadyInCart = req.user.cart.find(item =>
+        item !== productInCart && //Evita linha duplicada
+        item.productId.toString() === product._id.toString() &&
+        item.variationId.toString() === variation._id.toString()
+    )
+
+    if(variationAlreadyInCart){
+        addFlash(req, "alert-danger", "Essa variação já está no carrinho.")
+        return res.redirect("/cart")
+    }
+
+    if(valitadedData.quantity > variation.stock) {
+        addFlash(req, "alert-danger", "Não há demanda suficiente para o seu pedido")
+        return res.redirect("/cart")
+    }
+
+    
+    Object.assign(productInCart, {
+        productId: product._id,
+        variationId: variation._id,
+        quantity: valitadedData.quantity
+    })
+
+
+    await req.user.save()
+
+    addFlash(req, "alert-success", "Alterações Salvas")
+
+    res.redirect("/cart")
+
+    
+}
+
+
+
 
 module.exports = {
     addProduct,
     accessCart,
     removeProducts,
+    updCartProduct,
 
 }
