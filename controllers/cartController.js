@@ -79,8 +79,8 @@ async function addProduct(req, res) {  //Adicionar zod futuramente
 
     //Se tiver variação igual no carrinho a variavel pega, se nao, vira 0
     const currentQuantity = cartItem ? cartItem.quantity : 0
-
-    if(data.quantity <= 0 || isNaN(data.quantity) || !Number.isInteger(data.quantity)){
+    
+    if(data.quantity <= 0 || isNaN(data.quantity) || Number.isInteger(data.quantity)){
         addFlash(req, 'alert-danger', 'Quantidade Invalida !')
         return res.redirect('/products')
     }
@@ -160,6 +160,7 @@ async function updCartProduct(req, res) {
         return res.redirect("/cart")
     }
 
+
     const product = await Product.findById(valitadedData.productId)
 
     if(!product){
@@ -185,7 +186,7 @@ async function updCartProduct(req, res) {
         return res.redirect("/cart")
     }
 
-    //Verificar o codigo abaixo daqui amanhã
+    
     const variationAlreadyInCart = req.user.cart.find(item =>
         item !== productInCart && //Evita linha duplicada
         item.productId.toString() === product._id.toString() &&
@@ -193,12 +194,12 @@ async function updCartProduct(req, res) {
     )
 
     if(variationAlreadyInCart){
-        addFlash(req, "alert-danger", "Essa variação já está no carrinho.")
+        addFlash(req, "alert-danger", "Você ja possui este produto em seu carrinho")
         return res.redirect("/cart")
     }
 
     if(valitadedData.quantity > variation.stock) {
-        addFlash(req, "alert-danger", "Não há demanda suficiente para o seu pedido")
+        addFlash(req, "alert-danger", "Sem estoque para sua demanda ")
         return res.redirect("/cart")
     }
 
