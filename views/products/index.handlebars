@@ -15,12 +15,17 @@
     {{#each products}}
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         
-        <div class="product-card h-100 border bg-white d-flex flex-column {{#unless this.active}}product-disabled{{/unless}}">
+        <div class="product-card h-100 border bg-white d-flex flex-column {{#unless this.active}}product-disabled{{/unless}}" data-product-card>
+          <div class="d-none" data-product-variations>
+            {{#each this.variations}}
+              <span data-variation-stock="{{this.stock}}"></span>
+            {{/each}}
+          </div>
           
           <div class="product-img-placeholder position-relative d-flex align-items-center justify-content-center">
             
             {{#unless this.active}}
-              <span class="badge bg-dark text-white position-absolute top-0 start-0 m-3 px-3 py-2 text-uppercase fw-semibold" style="letter-spacing: 1.5px; font-size: 0.65rem; z-index: 2;">
+              <span data-stock-badge class="badge bg-dark text-white position-absolute top-0 start-0 m-3 px-3 py-2 text-uppercase fw-semibold" style="letter-spacing: 1.5px; font-size: 0.65rem; z-index: 2;">
                 Indisponível
               </span>
             {{/unless}}
@@ -77,6 +82,52 @@
   </div>
 
 </div>
+
+<script>
+  document.querySelectorAll('[data-product-card]').forEach((card) => {
+    const hasStock = [...card.querySelectorAll('[data-variation-stock]')]
+      .some((variation) => Number(variation.dataset.variationStock) > 0);
+
+    if (hasStock) return;
+
+    card.classList.add('product-disabled');
+
+    const image = card.querySelector('.product-img-placeholder');
+    const existingBadge = image.querySelector('[data-stock-badge]');
+    if (existingBadge) {
+      existingBadge.textContent = 'Esgotado';
+    } else {
+      const badge = document.createElement('span');
+      badge.className = 'badge bg-dark text-white position-absolute top-0 start-0 m-3 px-3 py-2 text-uppercase fw-semibold';
+      badge.style.cssText = 'letter-spacing: 1.5px; font-size: 0.65rem; z-index: 2;';
+      badge.dataset.stockBadge = '';
+      badge.textContent = 'Esgotado';
+      image.prepend(badge);
+    }
+
+    const detailsLink = card.querySelector('a[href^="/products/item/"]');
+    if (detailsLink) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'btn btn-secondary w-100 py-2 text-uppercase fw-semibold disabled';
+      button.style.cssText = 'font-size: 0.75rem; letter-spacing: 1px;';
+      button.disabled = true;
+      button.textContent = 'ESGOTADO';
+      detailsLink.replaceWith(button);
+    }
+  });
+
+  const productGrid = document.querySelector('.row.g-4');
+  if (productGrid) {
+    [...productGrid.children]
+      .sort((first, second) => {
+        const firstDisabled = first.querySelector('[data-product-card]')?.classList.contains('product-disabled') ?? false;
+        const secondDisabled = second.querySelector('[data-product-card]')?.classList.contains('product-disabled') ?? false;
+        return Number(firstDisabled) - Number(secondDisabled);
+      })
+      .forEach((column) => productGrid.appendChild(column));
+  }
+</script>
 
 <style>
   .product-card {

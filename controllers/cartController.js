@@ -54,6 +54,13 @@ async function addProduct(req, res) {  //Adicionar zod futuramente
         addFlash(req, 'alert-danger' ,'Produto nao encontrado, tente novamente mais tarde')
         return res.redirect("/products")
     }
+
+    if(!product.active){
+    addFlash(req, "alert-danger", 'Desculpe, Produto Inativo no momento.')
+    return res.redirect('/products')
+
+    }
+
     //Procura varição correspondente ao que o usuario escolheu
     const variation = product.variations.find(variation => 
         variation.color === data.color && 
@@ -72,6 +79,11 @@ async function addProduct(req, res) {  //Adicionar zod futuramente
 
     //Se tiver variação igual no carrinho a variavel pega, se nao, vira 0
     const currentQuantity = cartItem ? cartItem.quantity : 0
+
+    if(data.quantity <= 0 || isNaN(data.quantity) || !Number.isInteger(data.quantity)){
+        addFlash(req, 'alert-danger', 'Quantidade Invalida !')
+        return res.redirect('/products')
+    }
 
     if(variation.stock < Number(data.quantity) + currentQuantity ){
         addFlash(req, "alert-danger", 'Não há estoque disponivel para a sua demanda, Tente novamente mais tarde')
@@ -136,7 +148,8 @@ async function updCartProduct(req, res) {
         throw err
     }
 
-
+    //Procura produto antigo no carrinho
+    
     const productInCart = req.user.cart.find(item =>
         valitadedData.currentVariationId === item.variationId.toString() &&
         valitadedData.productId === item.productId.toString()
@@ -152,6 +165,13 @@ async function updCartProduct(req, res) {
     if(!product){
         addFlash(req, "alert-danger", "Erro ao procurar produto, tente novamente mais tarde")
         return res.redirect("/cart")
+    }
+
+    
+    if(!product.active){
+    addFlash(req, "alert-danger", 'Desculpe, Produto Inativo no momento.')
+    return res.redirect('/cart')
+    
     }
 
     const variation = product.variations.find( item =>

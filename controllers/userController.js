@@ -57,11 +57,11 @@ async function loginUser(req, res, next) {
     
 }
 
-async function logoutUser(req, res) {
+async function logoutUser(req, res, next) {
     req.logout(function(err){
 
         if(err){
-            return next (err)
+            return next(err)
         }
 
         addFlash(req, "alert-success", "Conta desconectada com sucesso")

@@ -243,10 +243,11 @@ async function editStockView(req, res) {
 }
 
 async function editStock(req, res, ) {
-
+    let product
+    
     try{
 
-        const product = await Product.findById(req.params.id)
+        product = await Product.findById(req.params.id)
         
         if(!product) {
             throw new Error("Produto não encontrado") 
