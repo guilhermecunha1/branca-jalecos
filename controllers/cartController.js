@@ -12,6 +12,8 @@ const formatZodErrors = require("../utils/formatZodErrors")
 
 //Schema:
 const{editCartSchema} = require('../validators/editCartSchema')
+const {addCartSchema } = require('../validators/addCartSchema')
+
 
 
 //Controllers
@@ -45,10 +47,23 @@ async function accessCart(req, res) {
     
 }
 
-async function addProduct(req, res) {  //Adicionar zod futuramente
-    const {...data} = req.body
+async function addProduct(req, res) { 
 
-    const product = await Product.findById(data.productId)
+    let valitadedData
+
+    try{
+        valitadedData = addCartSchema.parse(req.body)
+    }
+
+    catch(err){
+        if(err instanceof ZodError){
+            addFlash(req, 'alert-danger', 'Dados invalidos para adicionar produto.')
+            return res.redirect('/products')
+        }
+        throw err
+    }
+
+    const product = await Product.findById(valitadedData.productId)
 
     if(!product){
         addFlash(req, 'alert-danger' ,'Produto nao encontrado, tente novamente mais tarde')
@@ -63,8 +78,8 @@ async function addProduct(req, res) {  //Adicionar zod futuramente
 
     //Procura varição correspondente ao que o usuario escolheu
     const variation = product.variations.find(variation => 
-        variation.color === data.color && 
-        variation.size === data.size
+        variation.color === valitadedData.color && 
+        variation.size === valitadedData.size
     )
     //verifica se a variação existe
     if(!variation){
@@ -80,12 +95,7 @@ async function addProduct(req, res) {  //Adicionar zod futuramente
     //Se tiver variação igual no carrinho a variavel pega, se nao, vira 0
     const currentQuantity = cartItem ? cartItem.quantity : 0
     
-    if(data.quantity <= 0 || isNaN(data.quantity) || Number.isInteger(data.quantity)){
-        addFlash(req, 'alert-danger', 'Quantidade Invalida !')
-        return res.redirect('/products')
-    }
-
-    if(variation.stock < Number(data.quantity) + currentQuantity ){
+    if(variation.stock < valitadedData.quantity + currentQuantity ){
         addFlash(req, "alert-danger", 'Não há estoque disponivel para a sua demanda, Tente novamente mais tarde')
         return res.redirect('/products')
     }
@@ -95,13 +105,13 @@ async function addProduct(req, res) {  //Adicionar zod futuramente
     req.user.cart.push({
         productId: product._id,
         variationId: variation._id,
-        quantity: Number(data.quantity)
+        quantity: valitadedData.quantity
         
     })
     }
 
     else{
-        cartItem.quantity += Number(data.quantity)
+        cartItem.quantity += valitadedData.quantity
     }
 
     await req.user.save()
